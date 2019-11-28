@@ -15,13 +15,6 @@ public class UserController {
     @Reference(interfaceClass = MtimeUserService.class)
     MtimeUserService mtimeUserService;
 
-
-    //用户注册
-    @RequestMapping("register")
-    BaseVo register(String userName,String password, String email,String mobile, String adress){
-        return null;
-    }
-
     //用户名验证
     @RequestMapping("check")
     BaseVo usernameCheck(String username){
