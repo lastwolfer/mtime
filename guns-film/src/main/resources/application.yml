@@ -13,8 +13,8 @@ server:
   port: 8082 #项目端口
 
 mybatis-plus:
-  mapper-locations: classpath*:com/stylefeng/guns/rest/**/mapping/*.xml
-  typeAliasesPackage: com.stylefeng.guns.rest.common.persistence.model
+  mapper-locations: classpath*:com/stylefeng/guns/user/**/mapping/*.xml
+  typeAliasesPackage: com.stylefeng.guns.user.common.persistence.model
   global-config:
     id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
     db-column-underline: false
@@ -29,12 +29,12 @@ mybatis-plus:
 spring:
   application:
     name: guns-film
-    dubbo:
-      registry: zookeeper://localhost:2181
-      server: true
-      protocol:
-        name: dubbo
-        port: 20882
+  dubbo:
+    registry: zookeeper://localhost:2181
+    server: true
+    protocol:
+      name: dubbo
+      port: 20882
   datasource:
       url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
       username: root
