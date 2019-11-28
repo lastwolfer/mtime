@@ -1,6 +1,10 @@
 package com.stylefeng.guns.user.modular.example;
 
+<<<<<<< HEAD
 import com.stylefeng.guns.user.common.SimpleObject;
+=======
+import com.stylefeng.guns.user.common.persistence.SimpleObject;
+>>>>>>> ae0ef5851c0013e2b349f4f0b258a5e79cc62d05
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
