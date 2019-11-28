@@ -67,10 +67,6 @@ public class EntityGenerator {
         pc.setEntity("com.stylefeng.guns.rest.common.persistence.model");
         pc.setMapper("com.stylefeng.guns.rest.common.persistence.dao");
         pc.setXml("com.stylefeng.guns.rest.common.persistence.dao.mapping");
-//        pc.setService("TTT");       //本项目没用，生成之后删掉
-        pc.setServiceImpl("com.stylefeng.guns.rest.service.impl");   //本项目没用，生成之后删掉
-//        pc.setController("TTT");    //本项目没用，生成之后删掉
-        mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
         InjectionConfig cfg = new InjectionConfig() {
