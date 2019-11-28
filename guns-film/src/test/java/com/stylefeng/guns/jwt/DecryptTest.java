@@ -2,9 +2,15 @@ package com.stylefeng.guns.jwt;
 
 import com.alibaba.fastjson.JSON;
 import com.stylefeng.guns.core.util.MD5Util;
+<<<<<<< HEAD
+import com.stylefeng.guns.rest.common.SimpleObject;
+import com.stylefeng.guns.rest.modular.auth.converter.BaseTransferEntity;
+import com.stylefeng.guns.rest.modular.auth.security.impl.Base64SecurityAction;
+=======
 import com.stylefeng.guns.film.common.SimpleObject;
 import com.stylefeng.guns.film.modular.auth.converter.BaseTransferEntity;
 import com.stylefeng.guns.film.modular.auth.security.impl.Base64SecurityAction;
+>>>>>>> 301a0fa28bde97b54964139e718667e397b0194b
 
 /**
  * jwt测试
