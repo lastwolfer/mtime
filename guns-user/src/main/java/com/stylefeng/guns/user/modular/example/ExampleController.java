@@ -1,6 +1,6 @@
 package com.stylefeng.guns.user.modular.example;
 
-import com.stylefeng.guns.user.common.persistence.SimpleObject;
+import com.stylefeng.guns.user.common.SimpleObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

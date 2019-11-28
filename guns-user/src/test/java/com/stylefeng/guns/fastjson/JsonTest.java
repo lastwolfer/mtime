@@ -2,7 +2,7 @@ package com.stylefeng.guns.fastjson;
 
 import com.alibaba.fastjson.JSON;
 import com.stylefeng.guns.core.util.MD5Util;
-import com.stylefeng.guns.user.common.persistence.SimpleObject;
+import com.stylefeng.guns.user.common.SimpleObject;
 import com.stylefeng.guns.user.modular.auth.converter.BaseTransferEntity;
 
 /**

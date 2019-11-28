@@ -29,13 +29,13 @@ public class EntityGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("E:\\mtime\\guns-user\\src\\main\\java");//这里写你自己的java目录
+        gc.setOutputDir("D:\\Develop\\Coding WorkingSpace\\git\\guns\\guns-user\\src\\main\\java");//这里写你自己的java目录
         gc.setFileOverride(true);//是否覆盖
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(false);// XML columList
-        gc.setAuthor("AiTeboy");
+        gc.setAuthor("Mainzer");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
