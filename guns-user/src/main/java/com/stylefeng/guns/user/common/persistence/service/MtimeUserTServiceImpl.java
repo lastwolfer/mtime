@@ -1,9 +1,6 @@
 package com.stylefeng.guns.user.common.persistence.service;
 
-import com.stylefeng.guns.user.common.persistence.model.MtimeUserT;
-import com.stylefeng.guns.user.common.persistence.dao.MtimeUserTMapper;
-import TTT.IMtimeUserTService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.stylefeng.guns.service.user.MtimeUserService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +12,6 @@ import org.springframework.stereotype.Service;
  * @since 2019-11-28
  */
 @Service
-public class MtimeUserTServiceImpl extends ServiceImpl<MtimeUserTMapper, MtimeUserT> implements IMtimeUserTService {
+public class MtimeUserTServiceImpl implements MtimeUserService {
 
 }
