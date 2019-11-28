@@ -6,6 +6,9 @@ import com.stylefeng.guns.service.user.vo.BaseVo;
 
 public interface MtimeUserService {
 
+    //用户注册
+    BaseVo register(UserRegister userRegister);
+
 
     //用户登录
     int login(String userName, String password);
