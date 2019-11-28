@@ -1,12 +1,13 @@
 package com.stylefeng.guns.service.user;
 
+import com.stylefeng.guns.service.user.beans.UserRegister;
 import com.stylefeng.guns.service.user.vo.BaseVo;
 
 public interface MtimeUserService {
 
     //用户登录
-    BaseVo login(String userName, String password);
+    BaseVo login(UserRegister userRegister);
 
     //用户注册
-    BaseVo register(String userName,String password, String email,String mobile, String adress);
+    BaseVo register(UserRegister userRegister);
 }

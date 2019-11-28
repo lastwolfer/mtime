@@ -1,7 +1,10 @@
 package com.stylefeng.guns.user.common.persistence.service;
 
 import com.stylefeng.guns.service.user.MtimeUserService;
+import com.stylefeng.guns.service.user.beans.UserRegister;
 import com.stylefeng.guns.service.user.vo.BaseVo;
+import com.stylefeng.guns.user.common.persistence.dao.MtimeUserTMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,13 +19,17 @@ import org.springframework.stereotype.Service;
 @com.alibaba.dubbo.config.annotation.Service(interfaceClass = MtimeUserService.class)
 public class MtimeUserTServiceImpl implements MtimeUserService {
 
+    @Autowired
+    MtimeUserTMapper mtimeUserTMapper;
+
     @Override
-    public BaseVo login(String userName, String password) {
+    public BaseVo login(UserRegister userRegister) {
         return null;
     }
 
     @Override
-    public BaseVo register(String userName, String password, String email, String mobile, String adress) {
+    public BaseVo register(UserRegister userRegister) {
+
         return null;
     }
 }
