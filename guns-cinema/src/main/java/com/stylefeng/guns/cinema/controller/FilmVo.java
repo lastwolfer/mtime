@@ -1,6 +1,5 @@
 package com.stylefeng.guns.cinema.controller;
 
-import com.stylefeng.guns.cinema.persistence.model.MtimeHallFilmInfoT;
 import lombok.Data;
 
 import java.util.List;

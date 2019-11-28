@@ -43,7 +43,7 @@ public class MtimeCinemaTServiceImpl extends ServiceImpl<MtimeCinemaTMapper, Mti
         transCGFV(mtimeCinemaT,cinemaGetFieldsVO);
 
         EntityWrapper<MtimeFieldT> mtimeFieldTEntityWrapper = new EntityWrapper<>();
-        mtimeFieldTEntityWrapper.eq("cinema_id",cinemaGetFieldsVO.getCinemaId());
+        mtimeFieldTEntityWrapper.eq("cinema_id",id);
         List<MtimeFieldT> mtimeFieldTS = mtimeFieldTMapper.selectList(mtimeFieldTEntityWrapper);
         List<FilmFieldsVo> filmFieldsVos = new ArrayList<>();
         HashMap<Integer, List<FilmFieldsVo>> map = new HashMap<>();
