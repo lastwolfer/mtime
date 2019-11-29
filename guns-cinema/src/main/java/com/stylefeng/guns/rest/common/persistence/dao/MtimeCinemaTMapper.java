@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.common.persistence.dao;
 
 import com.stylefeng.guns.rest.common.persistence.model.MtimeCinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @since 2019-11-28
  */
 public interface MtimeCinemaTMapper extends BaseMapper<MtimeCinemaT> {
-
+    CinemaGetFieldsVO getFileds(Integer id);
 }

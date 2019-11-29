@@ -36,7 +36,6 @@ public class MtimeHallDictT extends Model<MtimeHallDictT> {
     @TableField("seat_address")
     private String seatAddress;
 
-
     public Integer getUuid() {
         return uuid;
     }

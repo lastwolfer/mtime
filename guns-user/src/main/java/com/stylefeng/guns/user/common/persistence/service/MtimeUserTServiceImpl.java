@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.stylefeng.guns.core.util.MD5Util;
 import com.stylefeng.guns.service.user.MtimeUserService;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.stylefeng.guns.core.util.MD5Util;
 import com.stylefeng.guns.service.user.beans.UserInfo;
 
 import com.stylefeng.guns.service.user.beans.UserRegister;
@@ -13,8 +12,8 @@ import com.stylefeng.guns.user.common.persistence.model.MtimeUserT;
 
 import com.stylefeng.guns.service.user.vo.BaseVo;
 import com.stylefeng.guns.user.modular.auth.util.JwtTokenUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -36,8 +35,12 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
 
     @Autowired
     MtimeUserTMapper mtimeUserTMapper;
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
 
 
@@ -88,6 +91,16 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
         }else{
             return -1;
         }
+    }
+
+    /**
+     *
+     * @return 是否退出判断值
+     */
+    @Override
+    public boolean loginOut(String authorization) {
+        Boolean delete = redisTemplate.delete( authorization);
+        return delete;
     }
 
     @Override

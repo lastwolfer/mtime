@@ -5,9 +5,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.service.cinema.CinemaService;
-import com.stylefeng.guns.service.cinema.vo.CinemasDataVo;
-import com.stylefeng.guns.service.cinema.vo.CinemasReqVo;
-import com.stylefeng.guns.service.cinema.vo.RespVo;
+import com.stylefeng.guns.service.cinema.ConditionService;
+import com.stylefeng.guns.service.cinema.vo.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +20,9 @@ public class CinemaController {
 
     @Reference(interfaceClass = CinemaService.class,check = false)
     CinemaService cinemaService;
+
+    @Reference(interfaceClass = ConditionService.class,check = false)
+    ConditionService conditionService;
 
     /**
      *  获取影院信息
@@ -42,5 +44,29 @@ public class CinemaController {
     @RequestMapping("getFieldInfo")
     public RespVo getFieldInfo(Integer fieldId,Integer cinemaId){
         return cinemaService.getFieldInfo(fieldId,cinemaId);
+    }
+
+    @RequestMapping("getFields")
+    public Resp3Vo getFields(Integer cinemaId){
+        Resp3Vo resp3Vo = new Resp3Vo();
+        CinemaGetFieldsVO fileds = null;
+        try {
+            fileds = cinemaService.getFileds(cinemaId);
+        } catch (Exception e) {
+//            e.printStackTrace();
+            resp3Vo.setStatus(1);
+            resp3Vo.setMsg("查询失败");
+            return resp3Vo;
+        }
+        resp3Vo.setData(fileds);
+        resp3Vo.setImgPre("http://img.meetingshop.cn/");
+        resp3Vo.setStatus(0);
+        return resp3Vo;
+    }
+
+    @RequestMapping("getCondition")
+    public RespVo getCondition(CinemaCondition cinemaCondition){
+        RespVo respVo = conditionService.getCondition(cinemaCondition);
+        return respVo;
     }
 }

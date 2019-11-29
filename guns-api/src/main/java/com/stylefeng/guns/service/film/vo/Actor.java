@@ -2,6 +2,8 @@ package com.stylefeng.guns.service.film.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author Da
  * @version 1.0
@@ -10,7 +12,8 @@ import lombok.Data;
  */
 
 @Data
-public class Actor {
+public class Actor implements Serializable {
+    private static final long serialVersionUID = 2694042268013103109L;
     private String imgAddress;
     private String directorName;
     private String roleName;

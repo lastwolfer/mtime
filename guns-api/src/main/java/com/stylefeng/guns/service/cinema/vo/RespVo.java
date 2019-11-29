@@ -13,7 +13,7 @@ public class RespVo implements Serializable {
 
     private Integer nowPage;
 
-    private Long totalPage;
+//    private Long totalPage;
 
     private Object data;
 
@@ -28,4 +28,6 @@ public class RespVo implements Serializable {
         this.status = status;
         this.msg = msg;
     }
+
+    private Integer totalPage;
 }

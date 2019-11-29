@@ -29,7 +29,9 @@ public class EntityGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("H:\\JAVA\\guns\\mtime\\guns-cinema\\src\\main\\java");//这里写你自己的java目录
+//        gc.setOutputDir("H:\\JAVA\\guns\\mtime\\guns-cinema\\src\\main\\java");//这里写你自己的java目录
+//        gc.setOutputDir("D:\\17workspace\\mtime\\guns-cinema\\src\\main\\java");//这里写你自己的java目录
+//        gc.setOutputDir("D:\\tmp\\guns\\guns-user\\src\\main\\java");//这里写你自己的java目录
         gc.setFileOverride(true);//是否覆盖
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
@@ -67,6 +69,7 @@ public class EntityGenerator {
         pc.setEntity("com.stylefeng.guns.rest.common.persistence.model");
         pc.setMapper("com.stylefeng.guns.rest.common.persistence.dao");
         pc.setXml("com.stylefeng.guns.rest.common.persistence.dao.mapping");
+        mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
         InjectionConfig cfg = new InjectionConfig() {
