@@ -32,7 +32,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+<<<<<<< HEAD
             <version>1.18.10</version>
+=======
+>>>>>>> c00ab290aca00348b46d78c5ac8bff7cca3a9219
         </dependency>
     </dependencies>
 

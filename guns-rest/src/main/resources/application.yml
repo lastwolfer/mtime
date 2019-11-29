@@ -37,4 +37,8 @@ logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
+<<<<<<< HEAD
   file: guns-rest.log
+=======
+  file: guns-user.log
+>>>>>>> c00ab290aca00348b46d78c5ac8bff7cca3a9219

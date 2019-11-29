@@ -30,11 +30,19 @@ spring:
   application:
     name: guns-film
   dubbo:
+<<<<<<< HEAD
       registry: zookeeper://localhost:2181
       server: true
       protocol:
         name: dubbo
         port: 20882
+=======
+    registry: zookeeper://localhost:2181
+    server: true
+    protocol:
+      name: dubbo
+      port: 20882
+>>>>>>> c00ab290aca00348b46d78c5ac8bff7cca3a9219
   datasource:
       url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
       username: root
