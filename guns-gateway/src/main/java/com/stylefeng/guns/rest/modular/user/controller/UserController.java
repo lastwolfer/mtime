@@ -5,8 +5,6 @@ import com.stylefeng.guns.service.user.MtimeUserService;
 import com.stylefeng.guns.service.user.beans.UserInfo;
 import com.stylefeng.guns.service.user.beans.UserRegister;
 import com.stylefeng.guns.service.user.vo.BaseVo;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
