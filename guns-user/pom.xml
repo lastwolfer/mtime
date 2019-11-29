@@ -46,7 +46,22 @@
             <artifactId>guns-api</artifactId>
             <version>0.0.1</version>
         </dependency>
+<<<<<<< HEAD
 
+=======
+        <dependency>
+            <groupId>com.stylefeng.guns</groupId>
+            <artifactId>guns-cinema</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.stylefeng.guns</groupId>
+            <artifactId>guns-gateway</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+>>>>>>> 8f97bcfb690997e8c8c2540f3429f9682103a08f
     </dependencies>
 
     <build>
