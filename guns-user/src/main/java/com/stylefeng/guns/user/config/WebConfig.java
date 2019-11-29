@@ -1,6 +1,6 @@
 package com.stylefeng.guns.user.config;
 
-import com.stylefeng.guns.user.config.properties.RestProperties;
+import com.stylefeng.guns.rest.config.properties.RestProperties;
 import com.stylefeng.guns.user.modular.auth.filter.AuthFilter;
 import com.stylefeng.guns.user.modular.auth.security.DataSecurityAction;
 import com.stylefeng.guns.user.modular.auth.security.impl.Base64SecurityAction;
