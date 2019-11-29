@@ -1,7 +1,8 @@
 package com.stylefeng.guns.user.config;
 
 import com.stylefeng.guns.core.config.DefaultFastjsonConfig;
-import com.stylefeng.guns.user.config.properties.RestProperties;
+import com.stylefeng.guns.user.config.properties.UserProperties;
+import com.stylefeng.guns.user.config.properties.UserProperties;
 import com.stylefeng.guns.user.modular.auth.converter.WithSignMessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class MessageConverConfig {
 
     @Bean
-    @ConditionalOnProperty(prefix = RestProperties.REST_PREFIX, name = "sign-open", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = UserProperties.REST_PREFIX, name = "sign-open", havingValue = "true", matchIfMissing = true)
     public WithSignMessageConverter withSignMessageConverter() {
         WithSignMessageConverter withSignMessageConverter = new WithSignMessageConverter();
         DefaultFastjsonConfig defaultFastjsonConfig = new DefaultFastjsonConfig();

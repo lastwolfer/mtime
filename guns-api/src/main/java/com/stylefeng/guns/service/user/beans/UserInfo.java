@@ -8,6 +8,8 @@ import java.util.Date;
 @Data
 public class UserInfo implements Serializable {
 
+    private Integer id;
+
     private Integer uuid;
 
     private String username;

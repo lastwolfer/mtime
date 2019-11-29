@@ -5,6 +5,8 @@ import com.stylefeng.guns.service.user.MtimeUserService;
 import com.stylefeng.guns.service.user.beans.UserInfo;
 import com.stylefeng.guns.service.user.beans.UserRegister;
 import com.stylefeng.guns.service.user.vo.BaseVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,6 +20,8 @@ public class UserController {
 
     @Reference(interfaceClass = MtimeUserService.class,check = false)
     MtimeUserService mtimeUserService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     //用户名验证
     @RequestMapping("check")
@@ -32,6 +36,7 @@ public class UserController {
         }
     }
 
+    //获取用户信息
     @RequestMapping("getUserInfo")
     BaseVo getUserInfo(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -40,7 +45,7 @@ public class UserController {
             return new BaseVo(1, "查询失败，用户尚未登陆", null);
         }
         String authToken = authorization.substring(7);
-        UserInfo userInfo = mtimeUserService.getUserInfo(authToken);
+        UserInfo userInfo = (UserInfo) redisTemplate.opsForValue().get(authToken);
         if( userInfo != null ){
             return new BaseVo(0, null, userInfo);
         }else {
@@ -48,9 +53,21 @@ public class UserController {
         }
     }
 
+    //用户注册
     @RequestMapping("register")
     public BaseVo registerUser(UserRegister userRegister){
         BaseVo result = mtimeUserService.register(userRegister);
         return result;
+    }
+
+    //修改用户信息
+    @RequestMapping("updateUserInfo")
+    public BaseVo updateUserInfo(UserInfo userInfo){
+        UserInfo update = mtimeUserService.updateUserInfo(userInfo);
+        if(update == null){
+            return new BaseVo(1, "用户资料修改失败", null);
+        }else{
+            return new BaseVo(0, null, update);
+        }
     }
 }

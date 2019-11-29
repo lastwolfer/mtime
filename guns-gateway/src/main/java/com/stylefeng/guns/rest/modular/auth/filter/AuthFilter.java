@@ -3,12 +3,15 @@ package com.stylefeng.guns.rest.modular.auth.filter;
 import com.stylefeng.guns.core.base.tips.ErrorTip;
 import com.stylefeng.guns.core.util.RenderUtil;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.rest.common.persistence.model.User;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
+import com.stylefeng.guns.service.user.beans.UserInfo;
 import io.jsonwebtoken.JwtException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -32,6 +35,8 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -43,13 +48,13 @@ public class AuthFilter extends OncePerRequestFilter {
         String authToken = null;
         if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
             authToken = requestHeader.substring(7);
-
-            //验证token是否过期,包含了验证jwt是否正确
+            /*验证token是否过期,包含了验证jwt是否正确*/
+            UserInfo userInfo = (UserInfo) redisTemplate.opsForValue().get(authToken);
             try {
-                boolean flag = jwtTokenUtil.isTokenExpired(authToken);
-                if (flag) {
-                    RenderUtil.renderJson(response, new ErrorTip(BizExceptionEnum.TOKEN_EXPIRED.getCode(), BizExceptionEnum.TOKEN_EXPIRED.getMessage()));
+                if(userInfo == null){
                     return;
+                }else{
+                    chain.doFilter(request, response);
                 }
             } catch (JwtException e) {
                 //有异常就是token解析失败

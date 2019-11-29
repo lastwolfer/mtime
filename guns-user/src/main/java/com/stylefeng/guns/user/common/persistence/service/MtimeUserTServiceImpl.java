@@ -77,17 +77,20 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
     }
 
     @Override
-    public int login(String userName, String password) {
+    public UserInfo login(String userName, String password) {
         Map<String,Object> map = new HashMap<>();
         map.put("user_name",userName);
         String encrypt = MD5Util.encrypt(password);
         map.put("user_pwd", encrypt);
         List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
-        if(userList != null){
-            return 1;
+        if( userList !=null ){
+            MtimeUserT mtimeUserT = userList.get(0);
+            UserInfo userInfo = userInfoTransfer(mtimeUserT);
+            return userInfo;
         }else{
-            return -1;
+            return null;
         }
+
     }
 
     @Override
@@ -111,20 +114,40 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
         UserInfo userInfo = new UserInfo();
         if( userList != null ) {
             MtimeUserT user = userList.get(0);
-            userInfo.setUuid(user.getUuid());
-            userInfo.setUsername(user.getUserName());
-            userInfo.setNickname(user.getNickName());
-            userInfo.setEmail(user.getEmail());
-            userInfo.setPhone(user.getUserPhone());
-            userInfo.setSex(user.getUserSex());
-            userInfo.setBirthday(user.getBirthday());
-            userInfo.setLifeState(user.getLifeState());
-            userInfo.setBiography(user.getBiography());
-            userInfo.setAddress(user.getAddress());
-            userInfo.setHeadAddress(user.getHeadUrl());
-            userInfo.setCreateTime(user.getBeginTime());
-            userInfo.setUpdateTime(user.getUpdateTime());
+            UserInfo userInfoRes = userInfoTransfer(user);
         }
+        return userInfo;
+    }
+
+    @Override
+    public UserInfo updateUserInfo(UserInfo userInfo) {
+        int updateStatus = mtimeUserTMapper.updateUserInfo(userInfo);
+        if(updateStatus != -1){
+            MtimeUserT mtimeUserT = mtimeUserTMapper.selectById(userInfo.getUuid());
+            userInfo.setHeadAddress(mtimeUserT.getHeadUrl());
+            userInfo.setCreateTime(mtimeUserT.getBeginTime());
+            userInfo.setUpdateTime(mtimeUserT.getUpdateTime());
+            return userInfo;
+        }else{
+            return null;
+        }
+    }
+
+    public UserInfo userInfoTransfer(MtimeUserT user){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUuid(user.getUuid());
+        userInfo.setUsername(user.getUserName());
+        userInfo.setNickname(user.getNickName());
+        userInfo.setEmail(user.getEmail());
+        userInfo.setPhone(user.getUserPhone());
+        userInfo.setSex(user.getUserSex());
+        userInfo.setBirthday(user.getBirthday());
+        userInfo.setLifeState(user.getLifeState());
+        userInfo.setBiography(user.getBiography());
+        userInfo.setAddress(user.getAddress());
+        userInfo.setHeadAddress(user.getHeadUrl());
+        userInfo.setCreateTime(user.getBeginTime());
+        userInfo.setUpdateTime(user.getUpdateTime());
         return userInfo;
     }
 

@@ -19,5 +19,35 @@
         <result column="begin_time" property="beginTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
+    <update id="updateUserInfo">
+        update mtime_user_t
+        set uuid = #{user.uuid},
+            <trim suffixOverrides=",">
+            <if test="user.nickname != null">
+                nick_name = #{user.nickname},
+            </if>
+            <if test="user.email != null">
+                email = #{user.email},
+            </if>
+            <if test="user.phone != null">
+                user_phone = #{user.phone},
+            </if>
+            <if test="user.sex != null">
+                user_sex = #{user.sex},
+            </if>
+            <if test="user.birthday != null">
+                birthday = #{user.birthday},
+            </if>
+            <if test="user.lifeState != null">
+                life_state = #{user.lifeState},
+            </if>
+            <if test="user.biography !=null">
+                biography = #{user.biography},
+            </if>
+            <if test="user.address != null">
+                address = #{user.address},
+            </if>
+        </trim>
+    </update>
 
 </mapper>
