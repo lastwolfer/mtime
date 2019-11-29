@@ -18,6 +18,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,6 +35,11 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeCinemaTMapper mtimeCinemaTMapper;
 
+    /**
+     * 获取影院信息
+     * @param cinemasReqVo
+     * @return
+     */
     @Override
     public RespVo getCinemas(CinemasReqVo cinemasReqVo) {
         RespVo respVo = new RespVo();
@@ -64,5 +70,16 @@ public class CinemaServiceImpl implements CinemaService {
         respVo.setTotalPage(totalPage);
         respVo.setData(cinemasDataVos);
         return respVo;
+    }
+
+    /**
+     * 获取场次详情信息
+     * @param map
+     * @return
+     */
+    @Override
+    public RespVo getFieldInfo(Map<String, Object> map) {
+
+        return null;
     }
 }

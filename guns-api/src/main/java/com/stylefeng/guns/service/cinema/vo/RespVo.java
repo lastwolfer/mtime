@@ -19,6 +19,8 @@ public class RespVo implements Serializable {
 
     private String msg;
 
+    private String imgPre;
+
     public RespVo() {
     }
 

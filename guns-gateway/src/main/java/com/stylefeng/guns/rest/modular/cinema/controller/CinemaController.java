@@ -38,4 +38,9 @@ public class CinemaController {
         }
         return respVo;
     }
+
+    @RequestMapping("getFieldInfo")
+    public RespVo getFieldInfo(@RequestBody Map<String,Object> map){
+        return cinemaService.getFieldInfo(map);
+    }
 }
