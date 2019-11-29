@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("user")
 public class UserController {
 
-    @Reference(interfaceClass = MtimeUserService.class,check = false)
+    @Reference(interfaceClass = MtimeUserService.class,  check = false)
     MtimeUserService mtimeUserService;
 
     //用户名验证

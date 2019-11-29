@@ -2,6 +2,8 @@ package com.stylefeng.guns.service.film.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author Da
  * @version 1.0
@@ -10,7 +12,8 @@ import lombok.Data;
  */
 
 @Data
-public class Director {
+public class Director implements Serializable {
+    private static final long serialVersionUID = -379408656529111487L;
     private String imgAddress;
     private String directorName;
 }
