@@ -1,9 +1,13 @@
 package com.stylefeng.guns.service.film;
 
+
 import com.stylefeng.guns.service.film.vo.*;
 
 import java.util.List;
 import java.util.Map;
+import com.stylefeng.guns.service.film.vo.FilmDetailVo;
+import com.stylefeng.guns.service.film.vo.FilmReqVo3;
+import com.stylefeng.guns.service.film.vo.FilmsVo;
 
 /**
  * @author Da
@@ -13,7 +17,6 @@ import java.util.Map;
  */
 
 public interface FilmService {
-    FilmVo3 getFilms(FilmReqVo3 filmReqVo);
 
 
 
@@ -38,4 +41,8 @@ public interface FilmService {
     List<YearVo> getByYear(Integer yearId);
 
     Map<String,Object> getCondition(Integer catId,Integer sourceId,Integer yearId);
+
+    FilmsVo getFilms(FilmReqVo3 filmReqVo);
+
+    FilmDetailVo getFilmDetail(int searchType, String searchParam);
 }

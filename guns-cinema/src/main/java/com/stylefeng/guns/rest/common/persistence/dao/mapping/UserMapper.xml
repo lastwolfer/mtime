@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<<<<<<< HEAD:guns-cinema/src/main/java/com/stylefeng/guns/rest/common/persistence/dao/mapping/UserMapper.xml
 <mapper namespace="UserMapper">
 
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="User">
+=======
+<mapper namespace="com.stylefeng.guns.rest.common.persistence.dao.UserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.stylefeng.guns.rest.common.persistence.model.User">
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358:guns-gateway/src/main/java/com/stylefeng/guns/rest/common/persistence/dao/mapping/UserMapper.xml
 		<id column="id" property="id" />
 		<result column="userName" property="userName" />
 	</resultMap>

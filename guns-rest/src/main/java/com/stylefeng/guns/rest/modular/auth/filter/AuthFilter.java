@@ -2,9 +2,21 @@ package com.stylefeng.guns.rest.modular.auth.filter;
 
 import com.stylefeng.guns.core.base.tips.ErrorTip;
 import com.stylefeng.guns.core.util.RenderUtil;
+<<<<<<< HEAD
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
+=======
+<<<<<<< HEAD:guns-gateway/src/main/java/com/stylefeng/guns/rest/modular/auth/filter/AuthFilter.java
+import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
+import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.rest.config.properties.JwtProperties;
+=======
+import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.rest.config.properties.JwtProperties;
+import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358:guns-rest/src/main/java/com/stylefeng/guns/rest/modular/auth/filter/AuthFilter.java
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 import io.jsonwebtoken.JwtException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

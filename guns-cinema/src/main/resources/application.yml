@@ -13,8 +13,8 @@ server:
   port: 8083 #项目端口
 
 mybatis-plus:
-  mapper-locations: classpath*:com/stylefeng/guns/user/**/mapping/*.xml
-  typeAliasesPackage: com.stylefeng.guns.user.common.persistence.model
+  mapper-locations: classpath*:com/stylefeng/guns/rest/**/mapping/*.xml
+  typeAliasesPackage: com.stylefeng.guns.rest.common.persistence.model
   global-config:
     id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
     db-column-underline: false
@@ -28,7 +28,7 @@ mybatis-plus:
 
 spring:
   application:
-    name: guns-cinema
+    name: guns-rest
   dubbo:
     registry: zookeeper://localhost:2181
     server: true
@@ -47,4 +47,4 @@ logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
-  file: guns-cinema.log
+  file: guns-rest.log

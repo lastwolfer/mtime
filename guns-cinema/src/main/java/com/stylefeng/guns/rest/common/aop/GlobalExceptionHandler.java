@@ -3,6 +3,10 @@ package com.stylefeng.guns.rest.common.aop;
 import com.stylefeng.guns.core.aop.BaseControllerExceptionHandler;
 import com.stylefeng.guns.core.base.tips.ErrorTip;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+<<<<<<< HEAD
+=======
+import com.stylefeng.guns.service.cinema.vo.RespVo;
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,4 +36,8 @@ public class GlobalExceptionHandler extends BaseControllerExceptionHandler {
     public ErrorTip jwtException(JwtException e) {
         return new ErrorTip(BizExceptionEnum.TOKEN_ERROR.getCode(), BizExceptionEnum.TOKEN_ERROR.getMessage());
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 }
