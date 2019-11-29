@@ -28,7 +28,7 @@ mybatis-plus:
 
 spring:
   application:
-    name: guns-cinema
+    name: guns-rest
   dubbo:
     registry: zookeeper://localhost:2181
     server: true
@@ -47,4 +47,4 @@ logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
-  file: guns-cinema.log
+  file: guns-rest.log

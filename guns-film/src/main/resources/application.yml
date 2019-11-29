@@ -29,7 +29,7 @@ mybatis-plus:
 spring:
   application:
     name: guns-film
-    dubbo:
+  dubbo:
       registry: zookeeper://localhost:2181
       server: true
       protocol:
