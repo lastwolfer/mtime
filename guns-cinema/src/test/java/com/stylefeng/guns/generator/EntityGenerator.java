@@ -66,21 +66,14 @@ public class EntityGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent(null);
-<<<<<<< HEAD
-        pc.setEntity("com.stylefeng.guns.cinema.persistence.model");
-        pc.setMapper("com.stylefeng.guns.cinema.persistence.dao");
-        pc.setXml("com.stylefeng.guns.rest.persistence.dao.mapping");
-        pc.setService("com.stylefeng.guns.cinema.service");       //本项目没用，生成之后删掉
-        pc.setServiceImpl("com.stylefeng.guns.cinema.service.impl");   //本项目没用，生成之后删掉
-        pc.setController("com.stylefeng.guns.cinema.controller");    //本项目没用，生成之后删掉
-=======
+
         pc.setEntity("com.stylefeng.guns.user.persistence.model");
         pc.setMapper("com.stylefeng.guns.user.persistence.dao");
         pc.setXml("com.stylefeng.guns.user.persistence.dao.mapping");
         pc.setService("TTT");       //本项目没用，生成之后删掉
         pc.setServiceImpl("TTT");   //本项目没用，生成之后删掉
         pc.setController("TTT");    //本项目没用，生成之后删掉
->>>>>>> c00ab290aca00348b46d78c5ac8bff7cca3a9219
+
         mpg.setPackageInfo(pc);
 
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
