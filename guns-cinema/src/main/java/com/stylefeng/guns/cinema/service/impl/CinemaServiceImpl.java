@@ -2,17 +2,16 @@ package com.stylefeng.guns.cinema.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.stylefeng.guns.cinema.persistence.model.MtimeCinemaT;
+import com.stylefeng.guns.cinema.persistence.model.MtimeFieldT;
+import com.stylefeng.guns.cinema.persistence.model.MtimeHallFilmInfoT;
 import com.stylefeng.guns.service.cinema.CinemaService;
 import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
 import com.stylefeng.guns.service.cinema.vo.FilmFieldsVo;
 import com.stylefeng.guns.service.cinema.vo.CFilmVo;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeFieldTMapper;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeHallFilmInfoTMapper;
-import com.stylefeng.guns.service.cinema.beans.MtimeCinemaT;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeCinemaTMapper;
-import com.stylefeng.guns.service.cinema.beans.MtimeFieldT;
-import com.stylefeng.guns.service.cinema.beans.MtimeHallFilmInfoT;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

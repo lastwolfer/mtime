@@ -1,8 +1,8 @@
 package com.stylefeng.guns.cinema.persistence.dao;
 
-import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
-import com.stylefeng.guns.service.cinema.beans.MtimeCinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.stylefeng.guns.cinema.persistence.model.MtimeCinemaT;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
 
 /**
  * <p>
