@@ -26,7 +26,7 @@ public class AuthController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Reference(interfaceClass = MtimeUserService.class)
+    @Reference(interfaceClass = MtimeUserService.class,check = false)
     MtimeUserService mtimeUserService;
 
     @Resource(name = "simpleValidator")
