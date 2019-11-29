@@ -17,6 +17,7 @@ import com.stylefeng.guns.rest.persistence.model.MtimeFilmT;
 import com.stylefeng.guns.service.film.FilmService;
 import com.stylefeng.guns.service.film.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -204,6 +205,8 @@ public class FilmServiceImpl implements FilmService {
         return filmTVos;
     }
 
+    @Value("${meeting.film.preImg}")
+    String imgPre;
     @Override
     public Map<String, Object> getIndex() {
         HashMap<String, Object> map = new HashMap<>();
@@ -222,6 +225,7 @@ public class FilmServiceImpl implements FilmService {
         //5.
         map.put("top100",getTop());
         map.put("soonFilms",getSoonFilms());
+        map.put("imgPre",imgPre);
         return map;
     }
 
