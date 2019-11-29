@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("user")
 public class UserController {
 
-    @Reference(interfaceClass = MtimeUserService.class,check = false)
+    @Reference(interfaceClass = MtimeUserService.class,  check = false)
     MtimeUserService mtimeUserService;
     @Autowired
     RedisTemplate redisTemplate;
@@ -38,7 +38,7 @@ public class UserController {
 
     //获取用户信息
     @RequestMapping("getUserInfo")
-    BaseVo getUserInfo(){
+    public BaseVo getUserInfo(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authorization = request.getHeader("Authorization");
         if(authorization==null){
@@ -70,4 +70,23 @@ public class UserController {
             return new BaseVo(0, null, update);
         }
     }
+    @RequestMapping(value = "/logout")
+    public BaseVo loginOut(){
+        BaseVo baseVo = new BaseVo();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String authorization = request.getHeader("Authorization");
+        if(authorization == null){
+            baseVo.setStatus(1);
+            baseVo.setMsg("退出失败，用户尚未登陆");
+            return baseVo;
+        }
+        boolean b = mtimeUserService.loginOut(authorization);
+        if(b == true ) {
+            baseVo.setStatus(0);
+            baseVo.setMsg("成功退出");
+            return baseVo;
+        }
+        return new BaseVo(999, "系统出现异常,请联系管理员", null);
+    }
+
 }

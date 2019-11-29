@@ -8,6 +8,7 @@ jwt:
   expiration: 604800      #7天 单位:秒
   auth-path: auth         #认证请求的路径
   md5-key: randomKey      #md5加密混淆key
+  ignore-URI: /auth,/user/register,/user/logout,/film/getFilms,/film/films,/film/getIndex,/film/getConditionList,/cinema/getFields,/cinema/getFieldInfo,/cinema/getCinemas,/cinema/getCondition
 
 server:
   port: 8088 #项目端口
@@ -36,9 +37,15 @@ spring:
       username: root
       password: 123456
       filters: log4j,wall,mergeStat
+      driver-class-name: com.mysql.jdbc.Driver
 
 logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
   file: guns-gateway.log
+
+meeting:
+  film:
+    preImg: https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/
+

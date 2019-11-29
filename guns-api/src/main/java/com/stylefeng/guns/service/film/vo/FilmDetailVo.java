@@ -2,6 +2,8 @@ package com.stylefeng.guns.service.film.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author Da
  * @version 1.0
@@ -10,7 +12,8 @@ import lombok.Data;
  */
 
 @Data
-public class FilmDetailVo extends FilmVo{
+public class FilmDetailVo implements Serializable {
+    private static final long serialVersionUID = -5597799248083951025L;
     private String filmId;
     private String filmName;
     private String filmEnName;
@@ -23,6 +26,4 @@ public class FilmDetailVo extends FilmVo{
     private String info03;
     private InfoRequestVO info04;
     private FilmImgVo imgVO;
-    private String imgPre;
-
 }

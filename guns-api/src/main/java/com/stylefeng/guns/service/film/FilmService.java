@@ -1,7 +1,8 @@
 package com.stylefeng.guns.service.film;
 
+import com.stylefeng.guns.service.film.vo.FilmDetailVo;
 import com.stylefeng.guns.service.film.vo.FilmReqVo3;
-import com.stylefeng.guns.service.film.vo.FilmVo;
+import com.stylefeng.guns.service.film.vo.FilmsVo;
 
 /**
  * @author Da
@@ -11,7 +12,7 @@ import com.stylefeng.guns.service.film.vo.FilmVo;
  */
 
 public interface FilmService {
-    FilmVo getFilms(FilmReqVo3 filmReqVo);
+    FilmsVo getFilms(FilmReqVo3 filmReqVo);
 
-    FilmVo getFilmDetail(int searchType, String searchParam);
+    FilmDetailVo getFilmDetail(int searchType, String searchParam);
 }

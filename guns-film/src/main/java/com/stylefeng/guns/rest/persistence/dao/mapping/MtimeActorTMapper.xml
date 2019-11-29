@@ -8,11 +8,5 @@
         <result column="actor_name" property="actorName" />
         <result column="actor_img" property="actorImg" />
     </resultMap>
-    <select id="selectByFilmId" resultType="com.stylefeng.guns.service.film.vo.RoleVo">
-        select uuid, actor_id, role_name from mtime_film_actor_t
-        <where>
-            film_id = #{uuid}
-        </where>
-    </select>
 
 </mapper>

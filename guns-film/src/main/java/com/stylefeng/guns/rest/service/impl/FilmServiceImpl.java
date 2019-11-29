@@ -3,6 +3,8 @@ package com.stylefeng.guns.rest.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.stylefeng.guns.core.exception.GunsException;
+import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.persistence.dao.*;
 import com.stylefeng.guns.rest.persistence.model.*;
 import com.stylefeng.guns.service.film.FilmService;
@@ -42,9 +44,12 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     MtimeActorTMapper mtimeActorTMapper;
 
+    @Autowired
+    MtimeFilmActorTMapper mtimeFilmActorTMapper;
+
 
     @Override
-    public FilmVo getFilms(FilmReqVo3 filmReqVo) {
+    public FilmsVo getFilms(FilmReqVo3 filmReqVo) {
         EntityWrapper<MtimeFilmT> wrapper = new EntityWrapper<>();
         wrapper.eq("film_status", filmReqVo.getShowType());
         if(filmReqVo.getCatId() != 99) {
@@ -67,45 +72,44 @@ public class FilmServiceImpl implements FilmService {
         Page<MtimeFilmT> page = new Page<>(filmReqVo.getNowPage(), filmReqVo.getPageSize());
         List<MtimeFilmT> mtimeFilmTS = mtimeFilmTMapper.selectPage(page, wrapper);
         if(CollectionUtils.isEmpty(mtimeFilmTS)){
-            return FilmVo.fail(1, "查询失败，无影片可加载");
+            return null;
         }
         List<FilmInfoVo> list = new ArrayList<>();
         for (MtimeFilmT mtimeFilm : mtimeFilmTS) {
             FilmInfoVo filmInfoVo = new FilmInfoVo();
             filmInfoVo.setFilmId(mtimeFilm.getUuid());
-            filmInfoVo.setFilmType(mtimeFilm.getFilmStatus());
+            filmInfoVo.setFilmType(String.valueOf(mtimeFilm.getFilmStatus()));
             filmInfoVo.setImgAddress(mtimeFilm.getImgAddress());
             filmInfoVo.setFilmName(mtimeFilm.getFilmName());
             filmInfoVo.setFilmScore(mtimeFilm.getFilmScore());
             list.add(filmInfoVo);
         }
         FilmsVo filmVo = new FilmsVo();
-        //先暂时写这个，带时候在改
-        filmVo.setImgPre("https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/");
+        //先暂时写这个，到时候在改
+        //filmVo.setImgPre("https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/");
         filmVo.setNowPage(filmReqVo.getNowPage());
         int total = (int)page.getTotal();
         filmVo.setTotalPage(total);
         filmVo.setData(list);
-        filmVo.setStatus(0);
 
         return filmVo;
     }
 
     @Override
-    public FilmVo getFilmDetail(int searchType, String searchParam) {
+    public FilmDetailVo getFilmDetail(int searchType, String searchParam) {
         FilmDetailVo filmDetailVo = new FilmDetailVo();
         MtimeFilmT mtimeFilm = null;
         if(searchType == 0) {
             mtimeFilm = mtimeFilmTMapper.selectById(searchParam);
             if(mtimeFilm == null) {
-                return FilmVo.fail(1, "查询失败，无影片可加载");
+                return null;
             }
         } else {
             EntityWrapper<MtimeFilmT> wrapper = new EntityWrapper<>();
             wrapper.eq("film_name", searchParam);
             List<MtimeFilmT> mtimeFilmTS = mtimeFilmTMapper.selectList(wrapper);
             if(CollectionUtils.isEmpty(mtimeFilmTS)){
-                return FilmVo.fail(1, "查询失败，无影片可加载");
+                return null;
             }
             mtimeFilm = mtimeFilmTS.get(0);
         }
@@ -116,7 +120,7 @@ public class FilmServiceImpl implements FilmService {
 
         List<MtimeFilmInfoT> mtimeFilmInfoList = mtimeFilmInfoTMapper.selectList(wrapper);
         if(CollectionUtils.isEmpty(mtimeFilmInfoList)) {
-            return FilmVo.fail(999, "系统出现异常，请联系管理员");
+            throw new GunsException(BizExceptionEnum.SYS_ERROR);
         }
         MtimeFilmInfoT mtimeFilmInfo = mtimeFilmInfoList.get(0);
         filmDetailVo.setFilmId(id.toString());
@@ -131,7 +135,7 @@ public class FilmServiceImpl implements FilmService {
         hallFilmInfoTEntityWrapper.eq("film_id", id);
         List<MtimeHallFilmInfoT> mtimeHallFilmInfoTList = mtimeHallFilmInfoTMapper.selectList(hallFilmInfoTEntityWrapper);
         if(CollectionUtils.isEmpty(mtimeHallFilmInfoTList)) {
-            return FilmVo.fail(999, "系统出现异常，请联系管理员");
+            throw new GunsException(BizExceptionEnum.SYS_ERROR);
         }
         MtimeHallFilmInfoT mtimeHallFilmInfo = mtimeHallFilmInfoTList.get(0);
         filmDetailVo.setInfo01(mtimeHallFilmInfo.getActors());
@@ -152,8 +156,10 @@ public class FilmServiceImpl implements FilmService {
 
         actors.setDirector(director);
         ArrayList<Actor> actorArrayList = new ArrayList<>();
-        List<RoleVo> list = mtimeActorTMapper.selectByFilmId(mtimeFilm.getUuid());
-        for (RoleVo roleVo : list) {
+        EntityWrapper<MtimeFilmActorT> mtimeFilmActorTEntityWrapper = new EntityWrapper<>();
+        mtimeFilmActorTEntityWrapper.eq("film_id", mtimeFilm.getUuid());
+        List<MtimeFilmActorT> roleVos = mtimeFilmActorTMapper.selectList(mtimeFilmActorTEntityWrapper);
+        for (MtimeFilmActorT roleVo : roleVos) {
             MtimeActorT mtimeActorT = mtimeActorTMapper.selectById(roleVo.getActorId());
             Actor actor = new Actor();
             actor.setImgAddress(mtimeActorT.getActorImg());
@@ -175,10 +181,6 @@ public class FilmServiceImpl implements FilmService {
         imgVO.setImg04(imgArr.length > 4 ? imgArr[4] : "");
 
         filmDetailVo.setImgVO(imgVO);
-        filmDetailVo.setStatus(0);
-        filmDetailVo.setImgPre("https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/");
-
-
         return filmDetailVo;
     }
 

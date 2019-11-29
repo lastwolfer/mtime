@@ -29,7 +29,7 @@ public class EntityGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("D:\\Develop\\Coding WorkingSpace\\git\\guns\\guns-user\\src\\main\\java");//这里写你自己的java目录
+        gc.setOutputDir("D:\\17workspace\\mtime\\guns-user\\src\\main\\java");//这里写你自己的java目录
         gc.setFileOverride(true);//是否覆盖
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
@@ -71,7 +71,6 @@ public class EntityGenerator {
         pc.setServiceImpl("com.stylefeng.guns.user.common.persistence.service");   //本项目没用，生成之后删掉
         pc.setController("TTT");    //本项目没用，生成之后删掉
         mpg.setPackageInfo(pc);
-
         // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
         InjectionConfig cfg = new InjectionConfig() {
             @Override

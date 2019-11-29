@@ -40,9 +40,14 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
-            chain.doFilter(request, response);
-            return;
+        String ignoreURI = jwtProperties.getIgnoreURI();
+        String[] ignores = ignoreURI.split(",");
+        String requestURI = request.getRequestURI();
+        for (String ignore : ignores ) {
+            if(requestURI.contains(ignore)){
+                chain.doFilter(request, response);
+                return;
+            }
         }
         final String requestHeader = request.getHeader(jwtProperties.getHeader());
         String authToken = null;

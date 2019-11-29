@@ -13,6 +13,9 @@ public interface MtimeUserService {
     //用户登录
     UserInfo login(String userName, String password);
 
+    //用户退出
+    boolean loginOut(String authorization);
+
     //用户名验证
     int usernameCheck(String username);
 
