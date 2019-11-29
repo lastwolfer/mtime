@@ -1,4 +1,4 @@
-package com.stylefeng.guns.cinema.persistence.model;
+package com.stylefeng.guns.service.cinema.beans;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>

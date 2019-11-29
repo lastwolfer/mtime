@@ -1,11 +1,13 @@
-package com.stylefeng.guns.cinema.controller;
+package com.stylefeng.guns.service.cinema.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class FilmVo {
+public class CFilmVo implements Serializable {
+    private static final long serialVersionUID = 121212;
     private String actors;
     private String filmCats;
     private Integer filmId;

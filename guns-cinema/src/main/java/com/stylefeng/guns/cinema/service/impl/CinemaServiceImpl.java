@@ -1,20 +1,21 @@
 package com.stylefeng.guns.cinema.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.stylefeng.guns.cinema.controller.CinemaGetFieldsVO;
-import com.stylefeng.guns.cinema.controller.FilmFieldsVo;
-import com.stylefeng.guns.cinema.controller.FilmVo;
+import com.stylefeng.guns.service.cinema.CinemaService;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
+import com.stylefeng.guns.service.cinema.vo.FilmFieldsVo;
+import com.stylefeng.guns.service.cinema.vo.CFilmVo;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeFieldTMapper;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeHallFilmInfoTMapper;
-import com.stylefeng.guns.cinema.persistence.model.MtimeCinemaT;
+import com.stylefeng.guns.service.cinema.beans.MtimeCinemaT;
 import com.stylefeng.guns.cinema.persistence.dao.MtimeCinemaTMapper;
-import com.stylefeng.guns.cinema.persistence.model.MtimeFieldT;
-import com.stylefeng.guns.cinema.persistence.model.MtimeHallFilmInfoT;
-import com.stylefeng.guns.cinema.service.IMtimeCinemaTService;
+import com.stylefeng.guns.service.cinema.beans.MtimeFieldT;
+import com.stylefeng.guns.service.cinema.beans.MtimeHallFilmInfoT;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -26,8 +27,9 @@ import java.util.*;
  * @author pandax
  * @since 2019-11-28
  */
+@Component
 @Service
-public class MtimeCinemaTServiceImpl extends ServiceImpl<MtimeCinemaTMapper, MtimeCinemaT> implements IMtimeCinemaTService {
+public class CinemaServiceImpl implements CinemaService {
 
     @Autowired
     MtimeCinemaTMapper mtimeCinemaTMapper;
@@ -63,21 +65,21 @@ public class MtimeCinemaTServiceImpl extends ServiceImpl<MtimeCinemaTMapper, Mti
             }
         }
 
-        List<FilmVo> filmVos = new ArrayList<>();
+        List<CFilmVo> CFilmVos = new ArrayList<>();
         for (Map.Entry<Integer, List<FilmFieldsVo>> entry : map.entrySet()) {
             MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectById(entry.getKey());
-            FilmVo filmVo = new FilmVo();
-            transFV(mtimeHallFilmInfoT,filmVo);
+            CFilmVo CFilmVo = new CFilmVo();
+            transFV(mtimeHallFilmInfoT, CFilmVo);
             List<FilmFieldsVo> value = entry.getValue();
             for (FilmFieldsVo filmFieldsVo : value) {
                 filmFieldsVo.setLanguage(mtimeHallFilmInfoT.getFilmLanguage());
             }
-            filmVo.setFilmFields(value);
-            filmVos.add(filmVo);
+            CFilmVo.setFilmFields(value);
+            CFilmVos.add(CFilmVo);
         }
 
 
-        cinemaGetFieldsVO.setFilmList(filmVos);
+        cinemaGetFieldsVO.setFilmList(CFilmVos);
 
         return cinemaGetFieldsVO;
     }
@@ -96,12 +98,12 @@ public class MtimeCinemaTServiceImpl extends ServiceImpl<MtimeCinemaTMapper, Mti
         f.setBeginTime(mtimeFieldT.getBeginTime());
         f.setEndTime(mtimeFieldT.getEndTime());
     }
-    private void transFV(MtimeHallFilmInfoT mtimeHallFilmInfoT,FilmVo filmVo){
-        filmVo.setActors(mtimeHallFilmInfoT.getActors());
-        filmVo.setFilmCats(mtimeHallFilmInfoT.getFilmCats());
-        filmVo.setFilmId(mtimeHallFilmInfoT.getFilmId());
-        filmVo.setFilmLength(mtimeHallFilmInfoT.getFilmLength());
-        filmVo.setFilmType(mtimeHallFilmInfoT.getFilmLanguage());
-        filmVo.setImgAddress(mtimeHallFilmInfoT.getImgAddress());
+    private void transFV(MtimeHallFilmInfoT mtimeHallFilmInfoT, CFilmVo CFilmVo){
+        CFilmVo.setActors(mtimeHallFilmInfoT.getActors());
+        CFilmVo.setFilmCats(mtimeHallFilmInfoT.getFilmCats());
+        CFilmVo.setFilmId(mtimeHallFilmInfoT.getFilmId());
+        CFilmVo.setFilmLength(mtimeHallFilmInfoT.getFilmLength());
+        CFilmVo.setFilmType(mtimeHallFilmInfoT.getFilmLanguage());
+        CFilmVo.setImgAddress(mtimeHallFilmInfoT.getImgAddress());
     }
 }

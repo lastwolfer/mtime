@@ -1,15 +1,15 @@
 package com.stylefeng.guns;
 
 
-import com.stylefeng.guns.cinema.controller.CinemaGetFieldsVO;
-import com.stylefeng.guns.cinema.service.impl.MtimeCinemaTServiceImpl;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
+import com.stylefeng.guns.cinema.service.impl.CinemaServiceImpl;
 import org.junit.Test;
 
 public class MyTest {
 
     @Test
     public void fun(){
-        MtimeCinemaTServiceImpl mtimeCinemaTService = new MtimeCinemaTServiceImpl();
+        CinemaServiceImpl mtimeCinemaTService = new CinemaServiceImpl();
         CinemaGetFieldsVO fileds = mtimeCinemaTService.getFileds(1);
         System.out.println(fileds);
     }
