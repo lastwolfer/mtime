@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.modular.auth.util;
 
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
+import com.stylefeng.guns.core.util.ToolUtil;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
