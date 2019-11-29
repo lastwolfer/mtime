@@ -9,5 +9,5 @@ public interface CinemaService {
 
     RespVo getCinemas(CinemasReqVo cinemasReqVo);
 
-    RespVo getFieldInfo(Map<String, Object> map);
+    RespVo getFieldInfo(Integer fieldId,Integer cinemaId);
 }

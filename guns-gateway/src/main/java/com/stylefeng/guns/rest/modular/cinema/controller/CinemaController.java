@@ -40,7 +40,7 @@ public class CinemaController {
     }
 
     @RequestMapping("getFieldInfo")
-    public RespVo getFieldInfo(@RequestBody Map<String,Object> map){
-        return cinemaService.getFieldInfo(map);
+    public RespVo getFieldInfo(Integer fieldId,Integer cinemaId){
+        return cinemaService.getFieldInfo(fieldId,cinemaId);
     }
 }
