@@ -1,7 +1,9 @@
 package com.stylefeng.guns.service.film;
 
-import com.stylefeng.guns.service.film.vo.FilmReqVo3;
-import com.stylefeng.guns.service.film.vo.FilmVo3;
+import com.stylefeng.guns.service.film.vo.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Da
@@ -12,4 +14,28 @@ import com.stylefeng.guns.service.film.vo.FilmVo3;
 
 public interface FilmService {
     FilmVo3 getFilms(FilmReqVo3 filmReqVo);
+
+
+
+    List<BannerVo> getBanners();
+
+    List<FilmTVo> getBoxRank();
+
+    List<FilmTVo> getExceptRank();
+
+    Map<String,Object> getHotFilms();
+
+    Map<String,Object> getSoonFilms();
+
+    List<FilmTVo> getTop();
+
+    Map<String,Object> getIndex();
+
+    List<CatVo> getCatDirt(Integer areaId);
+
+    List<SourceVo> getSources(Integer sourceId);
+
+    List<YearVo> getByYear(Integer yearId);
+
+    Map<String,Object> getCondition(Integer catId,Integer sourceId,Integer yearId);
 }
