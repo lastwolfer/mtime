@@ -16,6 +16,4 @@ import java.util.List;
  * @since 2019-11-28
  */
 public interface MtimeActorTMapper extends BaseMapper<MtimeActorT> {
-
-    List<RoleVo> selectByFilmId(@Param("uuid") Integer uuid);
 }

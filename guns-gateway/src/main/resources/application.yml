@@ -36,9 +36,14 @@ spring:
       username: root
       password: 123456
       filters: log4j,wall,mergeStat
+      driver-class-name: com.mysql.jdbc.Driver
 
 logging:
   level.root: info
   level.com.stylefeng: debug
   path: logs/
   file: guns-gateway.log
+
+meeting:
+  film:
+    preImg: https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/

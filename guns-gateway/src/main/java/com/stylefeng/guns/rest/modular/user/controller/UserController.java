@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class UserController {
 
-    @Reference(interfaceClass = MtimeUserService.class)
+    @Reference(interfaceClass = MtimeUserService.class,  check = false)
     MtimeUserService mtimeUserService;
 
     //用户名验证
