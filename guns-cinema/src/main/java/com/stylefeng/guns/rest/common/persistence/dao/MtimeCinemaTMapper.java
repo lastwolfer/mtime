@@ -13,5 +13,5 @@ import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
  * @since 2019-11-28
  */
 public interface MtimeCinemaTMapper extends BaseMapper<MtimeCinemaT> {
-    CinemaGetFieldsVO getFileds(Integer id);
+
 }

@@ -13,7 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = RestProperties.REST_PREFIX)
 public class RestProperties {
 
+<<<<<<< HEAD
+    public static final String REST_PREFIX = "user";
+=======
     public static final String REST_PREFIX = "rest";
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 
     private boolean authOpen = true;
 

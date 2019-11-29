@@ -5,9 +5,21 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.support.HttpKit;
 import com.stylefeng.guns.core.util.MD5Util;
+<<<<<<< HEAD
+import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
+import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.rest.config.properties.JwtProperties;
+=======
+<<<<<<< HEAD:guns-film/src/main/java/com/stylefeng/guns/rest/modular/auth/converter/WithSignMessageConverter.java
+import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
+import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.rest.config.properties.JwtProperties;
+=======
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
 import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358:guns-rest/src/main/java/com/stylefeng/guns/rest/modular/auth/converter/WithSignMessageConverter.java
+>>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpInputMessage;

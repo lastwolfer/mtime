@@ -2,6 +2,7 @@ package com.stylefeng.guns.rest.modular.film.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.stylefeng.guns.service.film.FilmService;
+import com.stylefeng.guns.service.film.vo.BaseRespVo;
 import com.stylefeng.guns.service.film.vo.FilmDetailVo;
 import com.stylefeng.guns.service.film.vo.FilmReqVo3;
 import com.stylefeng.guns.service.film.vo.FilmsVo;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author Da
@@ -59,5 +62,17 @@ public class FilmController {
         baseVoDetail.setDate(filmDetail);
         baseVoDetail.setStatus(0);
         return baseVoDetail;
+    }
+
+
+    @RequestMapping("film/getIndex")
+    public BaseRespVo getIndex(){
+        Map<String, Object> map = filmService.getIndex();
+        return BaseRespVo.ok(map);
+    }
+    @RequestMapping("film/getConditionList")
+    public BaseRespVo getConditionList(Integer catId,Integer sourceId,Integer yearId){
+        Map<String, Object> condition = filmService.getCondition(catId, sourceId, yearId);
+        return BaseRespVo.ok(condition);
     }
 }
