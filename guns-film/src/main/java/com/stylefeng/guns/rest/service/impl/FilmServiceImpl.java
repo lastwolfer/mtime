@@ -88,14 +88,20 @@ public class FilmServiceImpl implements FilmService {
             return null;
         }
         List<FilmInfoVo> list = new ArrayList<>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         for (MtimeFilmT mtimeFilm : mtimeFilmTS) {
             FilmInfoVo filmInfoVo = new FilmInfoVo();
-            filmInfoVo.setFilmId(mtimeFilm.getUuid());
-            filmInfoVo.setFilmType(String.valueOf(mtimeFilm.getFilmStatus()));
-            filmInfoVo.setFilmType(mtimeFilm.getFilmStatus()+"");
+            filmInfoVo.setFilmId(mtimeFilm.getUuid().toString());
+            filmInfoVo.setFilmType(mtimeFilm.getFilmStatus());
             filmInfoVo.setImgAddress(mtimeFilm.getImgAddress());
             filmInfoVo.setFilmName(mtimeFilm.getFilmName());
+            filmInfoVo.setScore(mtimeFilm.getFilmScore());
             filmInfoVo.setFilmScore(mtimeFilm.getFilmScore());
+            filmInfoVo.setExpectNum(Integer.parseInt(mtimeFilm.getFilmPresalenum().toString()));
+            filmInfoVo.setBoxNum(mtimeFilm.getFilmBoxOffice());
+            Date filmTime = mtimeFilm.getFilmTime();
+            String time = df.format(filmTime);
+            filmInfoVo.setShowTime(time);
             list.add(filmInfoVo);
         }
         FilmsVo filmVo = new FilmsVo();
@@ -103,7 +109,7 @@ public class FilmServiceImpl implements FilmService {
         //filmVo.setImgPre("https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/");
         filmVo.setNowPage(filmReqVo.getNowPage());
         int total = (int)page.getTotal();
-        filmVo.setTotalPage(total);
+        filmVo.setTotalPage(total/filmReqVo.getPageSize() + 1);
         filmVo.setData(list);
 
         return filmVo;
@@ -212,10 +218,10 @@ public class FilmServiceImpl implements FilmService {
     public Map<String, Object> getIndex() {
         HashMap<String, Object> map = new HashMap<>();
         //1获取banners
-        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
-        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
+//        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
+//        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
 
-        map.put("banners",mtimeBannerTS);
+        map.put("banners",getBanners());
         //2.获取boxRanking
         List<FilmTVo> boxRank = getBoxRank();
         map.put("boxRanking", boxRank);

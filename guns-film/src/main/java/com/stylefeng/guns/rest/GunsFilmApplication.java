@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {"com.stylefeng.guns"})
 @EnableDubboConfiguration
-public class GunsFilmApplication {
+public class  GunsFilmApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GunsFilmApplication.class, args);
