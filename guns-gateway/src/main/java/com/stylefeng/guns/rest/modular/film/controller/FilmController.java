@@ -68,11 +68,16 @@ public class FilmController {
     @RequestMapping("film/getIndex")
     public BaseRespVo getIndex(){
         Map<String, Object> map = filmService.getIndex();
-        return BaseRespVo.ok(map);
+        BaseRespVo ok = BaseRespVo.ok(map);
+        ok.setImgPre("http://img.meetingshop.cn/");
+        return ok;
     }
     @RequestMapping("film/getConditionList")
     public BaseRespVo getConditionList(Integer catId,Integer sourceId,Integer yearId){
         Map<String, Object> condition = filmService.getCondition(catId, sourceId, yearId);
-        return BaseRespVo.ok(condition);
+
+        BaseRespVo ok = BaseRespVo.ok(condition);
+        ok.setImgPre("http://img.meetingshop.cn/");
+        return ok;
     }
 }
