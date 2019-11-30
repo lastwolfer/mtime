@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 @Data
 @TableName("mtime_banner_t")
-public class MtimeBannerT extends Model<MtimeBannerT> {
+public class MtimeBannerT extends Model<MtimeBannerT> implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
