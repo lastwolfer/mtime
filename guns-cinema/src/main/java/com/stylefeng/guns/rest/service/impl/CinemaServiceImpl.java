@@ -175,7 +175,9 @@ public class CinemaServiceImpl implements CinemaService {
 
         List<CFilmVo> CFilmVos = new ArrayList<>();
         for (Map.Entry<Integer, List<FilmFieldsVo>> entry : map.entrySet()) {
-            MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectById(entry.getKey());
+            EntityWrapper<MtimeHallFilmInfoT> mtimeHallFilmInfoTEntityWrapper = new EntityWrapper<>();
+            mtimeHallFilmInfoTEntityWrapper.eq("film_id",entry.getKey());
+            MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectByFilmId(entry.getKey());
             CFilmVo CFilmVo = new CFilmVo();
             transFV(mtimeHallFilmInfoT, CFilmVo);
             List<FilmFieldsVo> value = entry.getValue();

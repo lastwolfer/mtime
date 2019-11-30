@@ -50,13 +50,13 @@ public class AuthController {
             final String randomKey = jwtTokenUtil.getRandomKey();
             final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
             /*把用户信息存入redis*/
-            redisTemplate.opsForValue().set(token, loginUser, 5*60, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(token, loginUser, 30*60, TimeUnit.SECONDS);
             Map<String,Object> map = new HashMap<>();
             map.put("randomKey", randomKey);
             map.put("token", token);
             return new BaseVo(0, null, map);
         } else {
-            throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
+            return new BaseVo(1, "用户名或密码错误", null);
         }
     }
 }

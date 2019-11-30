@@ -19,7 +19,6 @@ public class BaseRespVo<T> {
     private int status=0;
 
 
-
     public static BaseRespVo ok(Object o){
         BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
 
