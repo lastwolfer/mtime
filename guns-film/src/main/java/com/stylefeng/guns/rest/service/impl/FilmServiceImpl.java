@@ -217,7 +217,7 @@ public class FilmServiceImpl implements FilmService {
         List<FilmTVo> boxRank = getBoxRank();
         map.put("boxRanking", boxRank);
         //3.获取expectRanking
-        map.put("exceptRanking",getExceptRank());
+        map.put("expectRanking",getExceptRank());
         //4.hotFiles
         map.put("hotFilms",getHotFilms());
         //5.

@@ -49,7 +49,7 @@ public class CinemaController {
     @RequestMapping("getFields")
     public Resp3Vo getFields(Integer cinemaId){
         Resp3Vo resp3Vo = new Resp3Vo();
-        CinemaGetFieldsVO fileds = null;
+        CinemaGetFieldsVo fileds = null;
         try {
             fileds = cinemaService.getFileds(cinemaId);
         } catch (Exception e) {
