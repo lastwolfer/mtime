@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -15,9 +13,8 @@ import java.io.Serializable;
  * </p>
  *
  * @author pandax
- * @since 2019-11-28
+ * @since 2019-11-30
  */
-@Data
 @TableName("mtime_banner_t")
 public class MtimeBannerT extends Model<MtimeBannerT> {
 
@@ -44,8 +41,51 @@ public class MtimeBannerT extends Model<MtimeBannerT> {
     @TableField("is_valid")
     private Integer isValid;
 
+
+    public Integer getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(Integer uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getBannerAddress() {
+        return bannerAddress;
+    }
+
+    public void setBannerAddress(String bannerAddress) {
+        this.bannerAddress = bannerAddress;
+    }
+
+    public String getBannerUrl() {
+        return bannerUrl;
+    }
+
+    public void setBannerUrl(String bannerUrl) {
+        this.bannerUrl = bannerUrl;
+    }
+
+    public Integer getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Integer isValid) {
+        this.isValid = isValid;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.uuid;
+    }
+
+    @Override
+    public String toString() {
+        return "MtimeBannerT{" +
+        "uuid=" + uuid +
+        ", bannerAddress=" + bannerAddress +
+        ", bannerUrl=" + bannerUrl +
+        ", isValid=" + isValid +
+        "}";
     }
 }
