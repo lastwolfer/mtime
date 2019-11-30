@@ -18,4 +18,30 @@ public class CatVo implements Serializable {
     private String catName;
     private boolean active;
 
+<<<<<<< HEAD
+    public void setCatId(String catId) {
+        this.catId = catId;
+    }
+
+    public void setCatName(String catName) {
+        this.catName = catName;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getCatId() {
+        return catId;
+    }
+
+    public String getCatName() {
+        return catName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+=======
+>>>>>>> bf83aada6de4d69c1abe586f4eed591aa339018d
 }

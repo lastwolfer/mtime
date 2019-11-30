@@ -86,7 +86,7 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
         String encrypt = MD5Util.encrypt(password);
         map.put("user_pwd", encrypt);
         List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
-        if( userList !=null ){
+        if( userList.size() != 0 ){
             MtimeUserT mtimeUserT = userList.get(0);
             UserInfo userInfo = userInfoTransfer(mtimeUserT);
             return userInfo;
@@ -121,16 +121,17 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
 
     @Override
     public UserInfo getUserInfo(String authToken) {
-        String username = jwtTokenUtil.getUsernameFromToken(authToken);
-        Map<String,Object> map = new HashMap<>();
-        map.put("user_name", username);
-        List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
-        UserInfo userInfo = new UserInfo();
-        if( userList != null ) {
-            MtimeUserT user = userList.get(0);
-            userInfo = userInfoTransfer(user);
-        }
-        return userInfo;
+//        String username = jwtTokenUtil.getUsernameFromToken(authToken);
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("user_name", username);
+//        List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
+//        UserInfo userInfo = new UserInfo();
+//        if( userList != null ) {
+//            MtimeUserT user = userList.get(0);
+//            userInfo = userInfoTransfer(user);
+//        }
+//        return userInfo;
+        return null;
     }
 
     @Override
