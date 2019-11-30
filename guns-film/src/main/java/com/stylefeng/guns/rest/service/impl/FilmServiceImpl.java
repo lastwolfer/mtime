@@ -99,6 +99,7 @@ public class FilmServiceImpl implements FilmService {
             filmInfoVo.setFilmScore(mtimeFilm.getFilmScore());
             filmInfoVo.setExpectNum(Integer.parseInt(mtimeFilm.getFilmPresalenum().toString()));
             filmInfoVo.setBoxNum(mtimeFilm.getFilmBoxOffice());
+            filmInfoVo.setFilmCats("");
             Date filmTime = mtimeFilm.getFilmTime();
             String time = df.format(filmTime);
             filmInfoVo.setShowTime(time);

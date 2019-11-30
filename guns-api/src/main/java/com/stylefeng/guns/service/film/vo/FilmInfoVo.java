@@ -23,4 +23,5 @@ public class FilmInfoVo implements Serializable {
     private Integer expectNum;
     private Integer boxNum;
     private String showTime;
+    private String filmCats;
 }
