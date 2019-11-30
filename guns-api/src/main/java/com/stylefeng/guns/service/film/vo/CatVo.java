@@ -18,6 +18,7 @@ public class CatVo implements Serializable {
     private String catName;
     private boolean active;
 
+<<<<<<< HEAD
     public void setCatId(String catId) {
         this.catId = catId;
     }
@@ -41,4 +42,6 @@ public class CatVo implements Serializable {
     public boolean isActive() {
         return active;
     }
+=======
+>>>>>>> bf83aada6de4d69c1abe586f4eed591aa339018d
 }

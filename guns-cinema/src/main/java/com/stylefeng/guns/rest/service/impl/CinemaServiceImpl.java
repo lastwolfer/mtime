@@ -14,11 +14,9 @@ import com.stylefeng.guns.rest.common.persistence.model.MtimeHallDictT;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeHallFilmInfoT;
 import com.stylefeng.guns.service.cinema.CinemaService;
 import com.stylefeng.guns.service.cinema.vo.*;
-import com.stylefeng.guns.service.film.vo.FilmInfoVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-//import service.IMtimeCinemaTService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -148,10 +146,11 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public CinemaGetFieldsVO getFileds(Integer id) {
+    public CinemaGetFieldsVo getFileds(Integer id) {
+        CinemaGetFieldsVo cinemaGetFieldsVo = new CinemaGetFieldsVo();
         MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(id);
-        CinemaGetFieldsVO cinemaGetFieldsVO = new CinemaGetFieldsVO();
-        transCGFV(mtimeCinemaT,cinemaGetFieldsVO);
+        CinemaInfoVo cinemaInfoVo = new CinemaInfoVo();
+        transCGFV(mtimeCinemaT,cinemaInfoVo);
 
         EntityWrapper<MtimeFieldT> mtimeFieldTEntityWrapper = new EntityWrapper<>();
         mtimeFieldTEntityWrapper.eq("cinema_id",id);
@@ -187,18 +186,17 @@ public class CinemaServiceImpl implements CinemaService {
             CFilmVos.add(CFilmVo);
         }
 
-
-        cinemaGetFieldsVO.setFilmList(CFilmVos);
-
-        return cinemaGetFieldsVO;
+        cinemaGetFieldsVo.setCinemaInfo(cinemaInfoVo);
+        cinemaGetFieldsVo.setFilmList(CFilmVos);
+        return cinemaGetFieldsVo;
     }
 
-    private void transCGFV(MtimeCinemaT mtimeCinemaT,CinemaGetFieldsVO cinemaGetFieldsVO){
-        cinemaGetFieldsVO.setCinemaId(mtimeCinemaT.getUuid());
-        cinemaGetFieldsVO.setCinemaAdress(mtimeCinemaT.getCinemaAddress());
-        cinemaGetFieldsVO.setCinemaName(mtimeCinemaT.getCinemaName());
-        cinemaGetFieldsVO.setCinemaPhone(mtimeCinemaT.getCinemaPhone());
-        cinemaGetFieldsVO.setImgUrl(mtimeCinemaT.getImgAddress());
+    private void transCGFV(MtimeCinemaT mtimeCinemaT,CinemaInfoVo cinemaInfoVo){
+        cinemaInfoVo.setCinemaId(mtimeCinemaT.getUuid());
+        cinemaInfoVo.setCinemaAddress(mtimeCinemaT.getCinemaAddress());
+        cinemaInfoVo.setCinemaName(mtimeCinemaT.getCinemaName());
+        cinemaInfoVo.setCinemaPhone(mtimeCinemaT.getCinemaPhone());
+        cinemaInfoVo.setImgUrl(mtimeCinemaT.getImgAddress());
     }
     private void transFFV(MtimeFieldT mtimeFieldT,FilmFieldsVo f){
         f.setFieldId(mtimeFieldT.getUuid());
