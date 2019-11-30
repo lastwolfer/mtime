@@ -112,7 +112,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<BannerVo> getBanners() {
         EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
-        wrapper.eq("is_valid",1);
+        wrapper.eq("is_valid",0);
         List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
         ArrayList<BannerVo> bannerVos = new ArrayList<>();
         if(!CollectionUtils.isEmpty(mtimeBannerTS)){
@@ -212,10 +212,7 @@ public class FilmServiceImpl implements FilmService {
     public Map<String, Object> getIndex() {
         HashMap<String, Object> map = new HashMap<>();
         //1获取banners
-        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
-        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
-
-        map.put("banners",mtimeBannerTS);
+        map.put("banners",getBanners());
         //2.获取boxRanking
         List<FilmTVo> boxRank = getBoxRank();
         map.put("boxRanking", boxRank);
@@ -226,7 +223,6 @@ public class FilmServiceImpl implements FilmService {
         //5.
         map.put("top100",getTop());
         map.put("soonFilms",getSoonFilms());
-        map.put("imgPre",imgPre);
         return map;
     }
 
@@ -234,21 +230,21 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     MtimeCatDictTMapper catDictTMapper;
     @Override
-    public List<CatVo> getCatDirt(Integer areaId) {
+    public List<CatVo> getCatDirt(Integer catId) {
         EntityWrapper<MtimeCatDictT> wrapper = new EntityWrapper<>();
         List<MtimeCatDictT> mtimeCatDictTS = catDictTMapper.selectList(wrapper);
         ArrayList<CatVo> catVos = new ArrayList<>();
         if(!CollectionUtils.isEmpty(mtimeCatDictTS)){
             for (MtimeCatDictT mtimeCatDictT : mtimeCatDictTS) {
                 CatVo catVo = new CatVo();
-                catVo.setAreaId(mtimeCatDictT.getUuid());
-                catVo.setAreaName(mtimeCatDictT.getShowName());
-                if(areaId==99){
+                catVo.setCatId(mtimeCatDictT.getUuid()+"");
+                catVo.setCatName(mtimeCatDictT.getShowName());
+                if(catId==99){
                     if("全部".equals(mtimeCatDictT.getShowName())){
                         catVo.setActive(true);
                     }
                 }else{
-                    if((""+areaId).equals(mtimeCatDictT.getUuid())){
+                    if((""+catId).equals(mtimeCatDictT.getUuid())){
                         catVo.setActive(true);
                     }
                 }
