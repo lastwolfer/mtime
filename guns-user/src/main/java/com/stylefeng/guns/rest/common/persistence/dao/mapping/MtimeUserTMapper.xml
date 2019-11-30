@@ -20,9 +20,8 @@
         <result column="update_time" property="updateTime" />
     </resultMap>
     <update id="updateUserInfo">
-        update mtime_user_t
-        set uuid = #{user.uuid},
-            <trim suffixOverrides=",">
+        update mtime_user_t set
+        <trim suffixOverrides=",">
             <if test="user.nickname != null">
                 nick_name = #{user.nickname},
             </if>
@@ -48,6 +47,7 @@
                 address = #{user.address},
             </if>
         </trim>
+        where uuid = #{user.uuid}
     </update>
 
 </mapper>

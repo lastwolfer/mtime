@@ -63,10 +63,14 @@ public class UserController {
     //修改用户信息
     @RequestMapping("updateUserInfo")
     public BaseVo updateUserInfo(UserInfo userInfo){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String authorization = request.getHeader("Authorization");
+        String authToken = authorization.substring(7);
         UserInfo update = mtimeUserService.updateUserInfo(userInfo);
         if(update == null){
             return new BaseVo(1, "用户资料修改失败", null);
         }else{
+            redisTemplate.opsForValue().set(authToken, update);
             return new BaseVo(0, null, update);
         }
     }
