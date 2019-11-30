@@ -102,6 +102,7 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
      */
     @Override
     public boolean loginOut(String authorization) {
+        System.out.println(authorization);
         Boolean delete = redisTemplate.delete( authorization);
         return delete;
     }

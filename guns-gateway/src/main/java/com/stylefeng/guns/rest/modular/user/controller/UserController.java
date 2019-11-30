@@ -75,12 +75,15 @@ public class UserController {
         BaseVo baseVo = new BaseVo();
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authorization = request.getHeader("Authorization");
-        if(authorization == null){
+        String authToken = authorization.substring(7);
+        if(authToken == null){
             baseVo.setStatus(1);
             baseVo.setMsg("退出失败，用户尚未登陆");
             return baseVo;
         }
-        boolean b = mtimeUserService.loginOut(authorization);
+        boolean b = mtimeUserService.loginOut(authToken);
+        System.out.println(authToken);
+        System.out.println(b);
         if(b == true ) {
             baseVo.setStatus(0);
             baseVo.setMsg("成功退出");

@@ -54,7 +54,7 @@ public class AuthController {
             Map<String,Object> map = new HashMap<>();
             map.put("randomKey", randomKey);
             map.put("token", token);
-            return new BaseVo(0, null, "map");
+            return new BaseVo(0, null, map);
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
         }
