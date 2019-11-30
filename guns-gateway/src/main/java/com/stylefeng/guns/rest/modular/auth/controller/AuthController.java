@@ -9,6 +9,7 @@ import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.modular.auth.validator.IReqValidator;
 import com.stylefeng.guns.service.user.MtimeUserService;
 import com.stylefeng.guns.service.user.beans.UserInfo;
+import com.stylefeng.guns.service.user.vo.BaseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +41,7 @@ public class AuthController {
 //    private IReqValidator reqValidator;
 
     @RequestMapping(value = "${jwt.auth-path}")
-    public ResponseEntity<?> createAuthenticationToken(AuthRequest authRequest) {
+    public BaseVo createAuthenticationToken(AuthRequest authRequest) {
 
         UserInfo loginUser = mtimeUserService.login(authRequest.getUserName(), authRequest.getPassword());
         System.out.println(loginUser);
@@ -48,7 +51,10 @@ public class AuthController {
             final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
             /*把用户信息存入redis*/
             redisTemplate.opsForValue().set(token, loginUser, 5*60, TimeUnit.SECONDS);
-            return ResponseEntity.ok(new AuthResponse(token, randomKey));
+            Map<String,Object> map = new HashMap<>();
+            map.put("randomKey", randomKey);
+            map.put("token", token);
+            return new BaseVo(0, null, "map");
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);
         }
