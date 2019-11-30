@@ -4,8 +4,6 @@ import lombok.Data;
 
 @Data
 public class BaseRespVo<T> {
-<<<<<<< HEAD
-    T data;
     /**
      * msg :
      * totalPage :
@@ -13,14 +11,6 @@ public class BaseRespVo<T> {
      * nowPage :
      * status : 0
      */
-    private String msg="";
-    private String totalPage="";
-    private String imgPre;
-    private String nowPage;
-    private int status=0;
-
-
-=======
 
     String mes;
     T data;
@@ -30,7 +20,6 @@ public class BaseRespVo<T> {
     private String nowPage="";
     private int status=0;
 
->>>>>>> bf83aada6de4d69c1abe586f4eed591aa339018d
     public static BaseRespVo ok(Object o){
         BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
 
