@@ -8,12 +8,14 @@ import java.io.Serializable;
 public class CatVo implements Serializable {
 
     private static final long serialVersionUID = 3175155554118458343L;
+
     /**
-     * areaId : 1
-     * areaName : 朝阳区
+     * catId : 1
+     * catName : 爱情
      * active : false
      */
-    private int areaId;
-    private String areaName;
-    private boolean active=false;
+    private String catId;
+    private String catName;
+    private boolean active;
+
 }

@@ -22,12 +22,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author Da
@@ -66,7 +62,7 @@ public class FilmServiceImpl implements FilmService {
         EntityWrapper<MtimeFilmT> wrapper = new EntityWrapper<>();
         wrapper.eq("film_status", filmReqVo.getShowType());
         if(filmReqVo.getCatId() != 99) {
-            wrapper.eq("film_cats", "#" + filmReqVo.getCatId() + "#");
+            wrapper.like("film_cats", "#" + filmReqVo.getCatId() + "#");
         }
         if(filmReqVo.getSourceId() != 99) {
             wrapper.eq("film_source", filmReqVo.getSortId());
@@ -84,9 +80,9 @@ public class FilmServiceImpl implements FilmService {
         }
         Page<MtimeFilmT> page = new Page<>(filmReqVo.getNowPage(), filmReqVo.getPageSize());
         List<MtimeFilmT> mtimeFilmTS = mtimeFilmTMapper.selectPage(page, wrapper);
-        if(CollectionUtils.isEmpty(mtimeFilmTS)){
+        /*if(CollectionUtils.isEmpty(mtimeFilmTS)){
             return null;
-        }
+        }*/
         List<FilmInfoVo> list = new ArrayList<>();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         for (MtimeFilmT mtimeFilm : mtimeFilmTS) {
@@ -221,7 +217,6 @@ public class FilmServiceImpl implements FilmService {
         //1获取banners
 //        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
 //        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
-
         map.put("banners",getBanners());
         //2.获取boxRanking
         List<FilmTVo> boxRank = getBoxRank();
@@ -241,21 +236,21 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     MtimeCatDictTMapper catDictTMapper;
     @Override
-    public List<CatVo> getCatDirt(Integer areaId) {
+    public List<CatVo> getCatDirt(Integer catId) {
         EntityWrapper<MtimeCatDictT> wrapper = new EntityWrapper<>();
         List<MtimeCatDictT> mtimeCatDictTS = catDictTMapper.selectList(wrapper);
         ArrayList<CatVo> catVos = new ArrayList<>();
         if(!CollectionUtils.isEmpty(mtimeCatDictTS)){
             for (MtimeCatDictT mtimeCatDictT : mtimeCatDictTS) {
                 CatVo catVo = new CatVo();
-                catVo.setAreaId(mtimeCatDictT.getUuid());
-                catVo.setAreaName(mtimeCatDictT.getShowName());
-                if(areaId==99){
+                catVo.setCatId(mtimeCatDictT.getUuid()+"");
+                catVo.setCatName(mtimeCatDictT.getShowName());
+                if(catId==99){
                     if("全部".equals(mtimeCatDictT.getShowName())){
                         catVo.setActive(true);
                     }
                 }else{
-                    if((""+areaId).equals(mtimeCatDictT.getUuid())){
+                    if((""+catId).equals(mtimeCatDictT.getUuid())){
                         catVo.setActive(true);
                     }
                 }
@@ -353,14 +348,14 @@ public class FilmServiceImpl implements FilmService {
         wrapper.eq("film_id", id);
 
         List<MtimeFilmInfoT> mtimeFilmInfoList = mtimeFilmInfoTMapper.selectList(wrapper);
-        if(CollectionUtils.isEmpty(mtimeFilmInfoList)) {
+        /*if(CollectionUtils.isEmpty(mtimeFilmInfoList)) {
             throw new GunsException(BizExceptionEnum.SYS_ERROR);
-        }
+        }*/
         MtimeFilmInfoT mtimeFilmInfo = mtimeFilmInfoList.get(0);
         filmDetailVo.setFilmId(id.toString());
         filmDetailVo.setFilmName(mtimeFilm.getFilmName());
         filmDetailVo.setFilmEnName(mtimeFilmInfo.getFilmEnName());
-        filmDetailVo.setFilmAddress(mtimeFilm.getImgAddress());
+        filmDetailVo.setImgAddress(mtimeFilm.getImgAddress());
         filmDetailVo.setScore(mtimeFilmInfo.getFilmScore());
         filmDetailVo.setScoreNum(mtimeFilmInfo.getFilmScoreNum().toString());
         filmDetailVo.setTotalBox(mtimeFilm.getFilmBoxOffice().toString());
@@ -368,11 +363,20 @@ public class FilmServiceImpl implements FilmService {
         EntityWrapper<MtimeHallFilmInfoT> hallFilmInfoTEntityWrapper = new EntityWrapper<>();
         hallFilmInfoTEntityWrapper.eq("film_id", id);
         List<MtimeHallFilmInfoT> mtimeHallFilmInfoTList = mtimeHallFilmInfoTMapper.selectList(hallFilmInfoTEntityWrapper);
-        if(CollectionUtils.isEmpty(mtimeHallFilmInfoTList)) {
+        /*if(CollectionUtils.isEmpty(mtimeHallFilmInfoTList)) {
             throw new GunsException(BizExceptionEnum.SYS_ERROR);
-        }
+        }*/
         MtimeHallFilmInfoT mtimeHallFilmInfo = mtimeHallFilmInfoTList.get(0);
-        filmDetailVo.setInfo01(mtimeHallFilmInfo.getActors());
+        /*String[] catIds = mtimeFilm.getFilmCats().split("#");
+        System.out.println(Arrays.toString(catIds));
+        StringBuilder sb = new StringBuilder();
+        for (String catId : catIds) {
+            MtimeCatDictT catDict = catDictTMapper.selectById(catId);
+            sb.append(catDict.getShowName()).append(",");
+        }
+        sb.delete(sb.length() - 1, sb.length());*/
+
+        filmDetailVo.setInfo01(mtimeHallFilmInfo.getFilmCats());
 
         MtimeSourceDictT mtimeSourceDict = mtimeSourceDictTMapper.selectById(mtimeFilm.getFilmSource());
         filmDetailVo.setInfo02(mtimeSourceDict.getShowName() + "/" + mtimeHallFilmInfo.getFilmLength() + "分钟");
@@ -413,8 +417,8 @@ public class FilmServiceImpl implements FilmService {
         imgVO.setImg02(imgArr.length > 2 ? imgArr[2] : "");
         imgVO.setImg03(imgArr.length > 3 ? imgArr[3] : "");
         imgVO.setImg04(imgArr.length > 4 ? imgArr[4] : "");
-
-        filmDetailVo.setImgVO(imgVO);
+        infoRequestVO.setImgVO(imgVO);
+        infoRequestVO.setFilmId(id.toString());
         return filmDetailVo;
     }
 

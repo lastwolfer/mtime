@@ -16,7 +16,7 @@ import lombok.Data;
 public class BaseVoDetail extends BaseVo {
     private static final long serialVersionUID = 8537162377934993049L;
     private String imgPre;
-    private Integer nowPage;
-    private Integer totalPage;
-    private Object Date;
+    private int nowPage;
+    private int totalPage;
+    private Object Data;
 }

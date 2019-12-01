@@ -17,7 +17,7 @@ public class FilmDetailVo implements Serializable {
     private String filmId;
     private String filmName;
     private String filmEnName;
-    private String filmAddress;
+    private String imgAddress;
     private String score;
     private String scoreNum;
     private String totalBox;
@@ -25,5 +25,5 @@ public class FilmDetailVo implements Serializable {
     private String info02;
     private String info03;
     private InfoRequestVO info04;
-    private FilmImgVo imgVO;
+
 }
