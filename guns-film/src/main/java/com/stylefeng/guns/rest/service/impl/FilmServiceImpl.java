@@ -115,7 +115,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<BannerVo> getBanners() {
         EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
-        wrapper.eq("is_valid",1);
+        wrapper.eq("is_valid",0);
         List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
         ArrayList<BannerVo> bannerVos = new ArrayList<>();
         if(!CollectionUtils.isEmpty(mtimeBannerTS)){
@@ -222,13 +222,12 @@ public class FilmServiceImpl implements FilmService {
         List<FilmTVo> boxRank = getBoxRank();
         map.put("boxRanking", boxRank);
         //3.获取expectRanking
-        map.put("exceptRanking",getExceptRank());
+        map.put("expectRanking",getExceptRank());
         //4.hotFiles
         map.put("hotFilms",getHotFilms());
         //5.
         map.put("top100",getTop());
         map.put("soonFilms",getSoonFilms());
-        map.put("imgPre",imgPre);
         return map;
     }
 

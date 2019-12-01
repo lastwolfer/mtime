@@ -6,12 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class CinemaGetFieldsVO implements Serializable {
+public class CinemaGetFieldsVo implements Serializable {
     private static final long serialVersionUID =123123;
-    private Integer cinemaId;
-    private String cinemaAdress;
-    private String cinemaName;
-    private String cinemaPhone;
-    private String imgUrl;
+    private CinemaInfoVo cinemaInfo;
     private List<CFilmVo> filmList;
+
 }

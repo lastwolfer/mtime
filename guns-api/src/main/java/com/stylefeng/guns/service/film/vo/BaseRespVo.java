@@ -5,13 +5,20 @@ import lombok.Data;
 @Data
 public class BaseRespVo<T> {
 
-    String mes;
-    Integer status;
     T data;
+    /**
+     * msg :
+     * totalPage :
+     * imgPre : http://img.meetingshop.cn/
+     * nowPage :
+     * status : 0
+     */
     private String msg="";
     private String totalPage="";
     private String imgPre;
     private String nowPage="";
+    private int status=0;
+
 
     public static BaseRespVo ok(Object o){
         BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
