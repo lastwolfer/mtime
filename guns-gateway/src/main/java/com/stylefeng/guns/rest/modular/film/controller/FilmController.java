@@ -42,7 +42,7 @@ public class FilmController {
         baseVoDetail.setImgPre(preImg);
         baseVoDetail.setNowPage(films.getNowPage());
         baseVoDetail.setTotalPage(films.getTotalPage());
-        baseVoDetail.setDate(films.getData());
+        baseVoDetail.setData(films.getData());
         baseVoDetail.setStatus(0);
         return baseVoDetail;
     }
@@ -59,7 +59,7 @@ public class FilmController {
             return baseVoDetail;
         }
         baseVoDetail.setImgPre(preImg);
-        baseVoDetail.setDate(filmDetail);
+        baseVoDetail.setData(filmDetail);
         baseVoDetail.setStatus(0);
         return baseVoDetail;
     }

@@ -16,4 +16,6 @@ public class InfoRequestVO implements Serializable {
     private static final long serialVersionUID = 6074508088322235659L;
     private String biography;
     private ActorsInfo actors;
+    private FilmImgVo imgVO;
+    private String filmId;
 }
