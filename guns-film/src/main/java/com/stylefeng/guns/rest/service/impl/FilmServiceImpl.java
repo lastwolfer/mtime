@@ -421,5 +421,9 @@ public class FilmServiceImpl implements FilmService {
         return filmDetailVo;
     }
 
-
+    @Override
+    public String getFilmNameById(Integer uuid) {
+        MtimeFilmT mtimeFilmT = mtimeFilmTMapper.selectById(uuid);
+        return mtimeFilmT.getFilmName();
+    }
 }

@@ -11,8 +11,8 @@ import java.io.Serializable;
  * 订单信息表
  * </p>
  *
- * @author Mainzer
- * @since 2019-11-30
+ * @author pandsx
+ * @since 2019-12-01
  */
 @TableName("mooc_order_t")
 public class MoocOrderT extends Model<MoocOrderT> {
