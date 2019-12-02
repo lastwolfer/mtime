@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,10 +30,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     MoocOrderTMapper moocOrderTMapper;
 
-    @Reference(interfaceClass = CinemaService.class,check = false)
+    @Reference(interfaceClass = CinemaService.class, check = false)
     CinemaService cinemaService;
 
-    @Reference(interfaceClass = FilmService.class,check = false)
+    @Reference(interfaceClass = FilmService.class, check = false)
     FilmService filmService;
 
     @Override
@@ -50,12 +51,12 @@ public class OrderServiceImpl implements OrderService {
         moocOrderT.setSeatsName(seatsName);
         int number = soldSeats.split(",").length; //获取票数
         moocOrderT.setFilmPrice(Double.valueOf(field.getPrice()));
-        moocOrderT.setOrderPrice((double) (number*field.getPrice()));
+        moocOrderT.setOrderPrice((double) (number * field.getPrice()));
         moocOrderT.setOrderTime(new Date());
         moocOrderT.setOrderUser(userId);
         moocOrderT.setOrderStatus(0);//0表示未支付
         Integer insert = moocOrderTMapper.insert(moocOrderT);
-        if (insert==0){
+        if (insert == 0) {
             BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
             baseRespVo.setMsg("该订单不存在");
             baseRespVo.setStatus(1);
@@ -66,19 +67,21 @@ public class OrderServiceImpl implements OrderService {
         orderVo.setOrderId(uuid);
         String filmName = filmService.getFilmNameById(field.getFilmId());
         orderVo.setFilmName(filmName);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("今天 MM月dd号 HH:mm");
-        String format = simpleDateFormat.format(new Date());
-        orderVo.setFieldTime(format);
+//        long time = System.currentTimeMillis() / 1000;
+        Date time = new Date();
+        String filmTime = new SimpleDateFormat("yyyy年MM月dd日 ").format(time);
+        orderVo.setFieldTime(filmTime+ field.getBeginTime());
         CinemaInfoVo cinema = cinemaService.getCinemaById(field.getCinemaId());
         orderVo.setCinemaName(cinema.getCinemaName());
         orderVo.setSeatsName(seatsName);
         orderVo.setOrderPrice(String.valueOf(moocOrderT.getOrderPrice()));
-        orderVo.setOrderTimestamp(String.valueOf(System.currentTimeMillis()));
+        orderVo.setOrderTimestamp(String.valueOf(time));
         return BaseRespVo.ok(orderVo);
     }
 
     /**
      * 获取订单信息
+     *
      * @param nowPage
      * @param pageSize
      * @param userId
@@ -86,34 +89,36 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public BaseRespVo getOrderInfo(Integer nowPage, Integer pageSize, Integer userId) {
-        Page<Object> page = new Page<>(nowPage,pageSize);
+        Page<Object> page = new Page<>(nowPage, pageSize);
         EntityWrapper<MoocOrderT> wrapper = new EntityWrapper<>();
-        wrapper.eq("order_user",userId);
+        wrapper.eq("order_user", userId);
         List<MoocOrderT> moocOrderTS = moocOrderTMapper.selectPage(page, wrapper);
-        if (CollectionUtils.isEmpty(moocOrderTS)){
-            return BaseRespVo.fail(1,"订单列表为空哦~~");
+        if (CollectionUtils.isEmpty(moocOrderTS)) {
+            return BaseRespVo.fail(1, "订单列表为空哦~~");
         }
         List<OrderVo> orderVos = new ArrayList<>();
         for (MoocOrderT moocOrderT : moocOrderTS) {
             OrderVo orderVo = new OrderVo();
-            BeanUtils.copyProperties(moocOrderT,orderVo);
+            BeanUtils.copyProperties(moocOrderT, orderVo);
             String filmName = filmService.getFilmNameById(moocOrderT.getFilmId());
             orderVo.setFilmName(filmName);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("今天 MM月dd号 HH:mm");
-            String format = simpleDateFormat.format(new Date());
-            orderVo.setFieldTime(format);
+            Integer fieldId = moocOrderT.getFieldId();
+            FieldInfoForOrderVo orderField = cinemaService.getOrderField(fieldId);
+            Date orderTime = moocOrderT.getOrderTime();
+            String filmTime = new SimpleDateFormat("yy年MM月dd日 ").format(orderTime);
+            orderVo.setFieldTime(filmTime + orderField.getBeginTime());
             CinemaInfoVo cinema = cinemaService.getCinemaById(moocOrderT.getCinemaId());
             orderVo.setCinemaName(cinema.getCinemaName());
             orderVo.setOrderId(moocOrderT.getUuid());
             orderVo.setOrderPrice(String.valueOf(moocOrderT.getOrderPrice()));
-            orderVo.setOrderTimestamp(String.valueOf(System.currentTimeMillis()));
-            if (moocOrderT.getOrderStatus()==0){
+            orderVo.setOrderTimestamp(String.valueOf(orderTime.getTime() / 1000));
+            if (moocOrderT.getOrderStatus() == 0) {
                 orderVo.setOrderStatus("未支付");
             }
-            if (moocOrderT.getOrderStatus()==1){
+            if (moocOrderT.getOrderStatus() == 1) {
                 orderVo.setOrderStatus("已完成");
             }
-            if (moocOrderT.getOrderStatus()==2){
+            if (moocOrderT.getOrderStatus() == 2) {
                 orderVo.setOrderStatus("已关闭");
             }
             orderVos.add(orderVo);

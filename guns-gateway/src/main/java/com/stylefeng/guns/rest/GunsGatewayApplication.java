@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.Schedules;
 @SpringBootApplication(scanBasePackages = {"com.stylefeng.guns"})
 @EnableDubboConfiguration
 public class GunsGatewayApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GunsGatewayApplication.class, args);
     }
