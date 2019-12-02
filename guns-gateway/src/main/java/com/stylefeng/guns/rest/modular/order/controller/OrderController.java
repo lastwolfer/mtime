@@ -67,7 +67,7 @@ public class OrderController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authorization = request.getHeader("Authorization");
         String authToken = authorization.substring(7);
-        return (UserInfo) redisTemplate.opsForValue().get(authorization);
+        return (UserInfo) redisTemplate.opsForValue().get(authToken);
     }
 
 }

@@ -2,8 +2,10 @@ package com.stylefeng.guns.service.film.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class BaseRespVo<T> {
+public class BaseRespVo<T> implements Serializable {
 
     T data;
     /**
