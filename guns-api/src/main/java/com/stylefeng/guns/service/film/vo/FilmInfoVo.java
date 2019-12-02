@@ -14,9 +14,14 @@ import java.io.Serializable;
 @Data
 public class FilmInfoVo implements Serializable {
     private static final long serialVersionUID = 8146730898358970496L;
-    private Integer filmId;
-    private String filmType;
+    private String filmId;
+    private Integer filmType;
     private String imgAddress;
     private String filmName;
+    private String score;
     private String filmScore;
+    private Integer expectNum;
+    private Integer boxNum;
+    private String showTime;
+    private String filmCats;
 }

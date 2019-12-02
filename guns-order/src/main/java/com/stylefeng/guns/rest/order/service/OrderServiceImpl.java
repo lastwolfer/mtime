@@ -118,7 +118,6 @@ public class OrderServiceImpl implements OrderService {
         EntityWrapper wrapper = new EntityWrapper();
         wrapper.eq("field_id",fieldId).ne("order_status",2);
         List list = moocOrderTMapper.selectList(wrapper);
-        list.get
         return null;
     }
 }

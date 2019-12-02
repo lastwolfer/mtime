@@ -29,6 +29,7 @@ public class EntityGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
+
         gc.setOutputDir("H:\\JAVA\\guns\\project_mtime\\mtime\\guns-order\\src\\main\\java");//这里写你自己的java目录
         gc.setFileOverride(true);//是否覆盖
         gc.setActiveRecord(true);

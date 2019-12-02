@@ -47,4 +47,5 @@ logging:
 
 meeting:
   film:
+#    preImg: http://img.meetingshop.cn/
     preImg: https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/

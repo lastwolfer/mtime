@@ -1,18 +1,13 @@
 package com.stylefeng.guns.rest.config;
 
 import com.stylefeng.guns.core.config.DefaultFastjsonConfig;
-<<<<<<< HEAD
 import com.stylefeng.guns.rest.config.properties.RestProperties;
 import com.stylefeng.guns.rest.modular.auth.converter.WithSignMessageConverter;
-=======
-<<<<<<< HEAD:guns-film/src/main/java/com/stylefeng/guns/rest/config/MessageConverConfig.java
+
 import com.stylefeng.guns.rest.modular.auth.converter.WithSignMessageConverter;
 import com.stylefeng.guns.rest.config.properties.RestProperties;
-=======
 import com.stylefeng.guns.rest.config.properties.RestProperties;
 import com.stylefeng.guns.rest.modular.auth.converter.WithSignMessageConverter;
->>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358:guns-rest/src/main/java/com/stylefeng/guns/rest/config/MessageConverConfig.java
->>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -22,12 +22,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author Da
@@ -66,7 +62,7 @@ public class FilmServiceImpl implements FilmService {
         EntityWrapper<MtimeFilmT> wrapper = new EntityWrapper<>();
         wrapper.eq("film_status", filmReqVo.getShowType());
         if(filmReqVo.getCatId() != 99) {
-            wrapper.eq("film_cats", "#" + filmReqVo.getCatId() + "#");
+            wrapper.like("film_cats", "#" + filmReqVo.getCatId() + "#");
         }
         if(filmReqVo.getSourceId() != 99) {
             wrapper.eq("film_source", filmReqVo.getSortId());
@@ -84,18 +80,25 @@ public class FilmServiceImpl implements FilmService {
         }
         Page<MtimeFilmT> page = new Page<>(filmReqVo.getNowPage(), filmReqVo.getPageSize());
         List<MtimeFilmT> mtimeFilmTS = mtimeFilmTMapper.selectPage(page, wrapper);
-        if(CollectionUtils.isEmpty(mtimeFilmTS)){
+        /*if(CollectionUtils.isEmpty(mtimeFilmTS)){
             return null;
-        }
+        }*/
         List<FilmInfoVo> list = new ArrayList<>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         for (MtimeFilmT mtimeFilm : mtimeFilmTS) {
             FilmInfoVo filmInfoVo = new FilmInfoVo();
-            filmInfoVo.setFilmId(mtimeFilm.getUuid());
-            filmInfoVo.setFilmType(String.valueOf(mtimeFilm.getFilmStatus()));
-            filmInfoVo.setFilmType(mtimeFilm.getFilmStatus()+"");
+            filmInfoVo.setFilmId(mtimeFilm.getUuid().toString());
+            filmInfoVo.setFilmType(mtimeFilm.getFilmStatus());
             filmInfoVo.setImgAddress(mtimeFilm.getImgAddress());
             filmInfoVo.setFilmName(mtimeFilm.getFilmName());
+            filmInfoVo.setScore(mtimeFilm.getFilmScore());
             filmInfoVo.setFilmScore(mtimeFilm.getFilmScore());
+            filmInfoVo.setExpectNum(Integer.parseInt(mtimeFilm.getFilmPresalenum().toString()));
+            filmInfoVo.setBoxNum(mtimeFilm.getFilmBoxOffice());
+            filmInfoVo.setFilmCats("");
+            Date filmTime = mtimeFilm.getFilmTime();
+            String time = df.format(filmTime);
+            filmInfoVo.setShowTime(time);
             list.add(filmInfoVo);
         }
         FilmsVo filmVo = new FilmsVo();
@@ -103,7 +106,7 @@ public class FilmServiceImpl implements FilmService {
         //filmVo.setImgPre("https://da4j-1300799324.cos.ap-shanghai.myqcloud.com/");
         filmVo.setNowPage(filmReqVo.getNowPage());
         int total = (int)page.getTotal();
-        filmVo.setTotalPage(total);
+        filmVo.setTotalPage(total/filmReqVo.getPageSize() + 1);
         filmVo.setData(list);
 
         return filmVo;
@@ -212,6 +215,8 @@ public class FilmServiceImpl implements FilmService {
     public Map<String, Object> getIndex() {
         HashMap<String, Object> map = new HashMap<>();
         //1获取banners
+//        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
+//        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
         map.put("banners",getBanners());
         //2.获取boxRanking
         List<FilmTVo> boxRank = getBoxRank();
@@ -342,14 +347,14 @@ public class FilmServiceImpl implements FilmService {
         wrapper.eq("film_id", id);
 
         List<MtimeFilmInfoT> mtimeFilmInfoList = mtimeFilmInfoTMapper.selectList(wrapper);
-        if(CollectionUtils.isEmpty(mtimeFilmInfoList)) {
+        /*if(CollectionUtils.isEmpty(mtimeFilmInfoList)) {
             throw new GunsException(BizExceptionEnum.SYS_ERROR);
-        }
+        }*/
         MtimeFilmInfoT mtimeFilmInfo = mtimeFilmInfoList.get(0);
         filmDetailVo.setFilmId(id.toString());
         filmDetailVo.setFilmName(mtimeFilm.getFilmName());
         filmDetailVo.setFilmEnName(mtimeFilmInfo.getFilmEnName());
-        filmDetailVo.setFilmAddress(mtimeFilm.getImgAddress());
+        filmDetailVo.setImgAddress(mtimeFilm.getImgAddress());
         filmDetailVo.setScore(mtimeFilmInfo.getFilmScore());
         filmDetailVo.setScoreNum(mtimeFilmInfo.getFilmScoreNum().toString());
         filmDetailVo.setTotalBox(mtimeFilm.getFilmBoxOffice().toString());
@@ -357,11 +362,20 @@ public class FilmServiceImpl implements FilmService {
         EntityWrapper<MtimeHallFilmInfoT> hallFilmInfoTEntityWrapper = new EntityWrapper<>();
         hallFilmInfoTEntityWrapper.eq("film_id", id);
         List<MtimeHallFilmInfoT> mtimeHallFilmInfoTList = mtimeHallFilmInfoTMapper.selectList(hallFilmInfoTEntityWrapper);
-        if(CollectionUtils.isEmpty(mtimeHallFilmInfoTList)) {
+        /*if(CollectionUtils.isEmpty(mtimeHallFilmInfoTList)) {
             throw new GunsException(BizExceptionEnum.SYS_ERROR);
-        }
+        }*/
         MtimeHallFilmInfoT mtimeHallFilmInfo = mtimeHallFilmInfoTList.get(0);
-        filmDetailVo.setInfo01(mtimeHallFilmInfo.getActors());
+        /*String[] catIds = mtimeFilm.getFilmCats().split("#");
+        System.out.println(Arrays.toString(catIds));
+        StringBuilder sb = new StringBuilder();
+        for (String catId : catIds) {
+            MtimeCatDictT catDict = catDictTMapper.selectById(catId);
+            sb.append(catDict.getShowName()).append(",");
+        }
+        sb.delete(sb.length() - 1, sb.length());*/
+
+        filmDetailVo.setInfo01(mtimeHallFilmInfo.getFilmCats());
 
         MtimeSourceDictT mtimeSourceDict = mtimeSourceDictTMapper.selectById(mtimeFilm.getFilmSource());
         filmDetailVo.setInfo02(mtimeSourceDict.getShowName() + "/" + mtimeHallFilmInfo.getFilmLength() + "分钟");
@@ -402,8 +416,8 @@ public class FilmServiceImpl implements FilmService {
         imgVO.setImg02(imgArr.length > 2 ? imgArr[2] : "");
         imgVO.setImg03(imgArr.length > 3 ? imgArr[3] : "");
         imgVO.setImg04(imgArr.length > 4 ? imgArr[4] : "");
-
-        filmDetailVo.setImgVO(imgVO);
+        infoRequestVO.setImgVO(imgVO);
+        infoRequestVO.setFilmId(id.toString());
         return filmDetailVo;
     }
 
