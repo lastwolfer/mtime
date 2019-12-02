@@ -44,7 +44,6 @@ public class OrderServiceImpl implements OrderService {
         MoocOrderT moocOrderT = new MoocOrderT();
         moocOrderT.setUuid(uuid);
         FieldInfoForOrderVo field = cinemaService.getOrderField(fieldId);
-
         moocOrderT.setCinemaId(field.getCinemaId());
         moocOrderT.setFieldId(fieldId);
         moocOrderT.setFilmId(field.getFilmId());
