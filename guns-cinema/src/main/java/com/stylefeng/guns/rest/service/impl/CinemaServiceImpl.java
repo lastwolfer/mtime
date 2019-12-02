@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -56,6 +57,9 @@ public class CinemaServiceImpl implements CinemaService {
     @Reference(interfaceClass = OrderService.class,check = false)
     OrderService orderService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
 
     /**
      * 获取影院信息
@@ -79,7 +83,7 @@ public class CinemaServiceImpl implements CinemaService {
         Page<MtimeCinemaT> page = new Page<>(cinemasReqVo.getNowPage(), cinemasReqVo.getPageSize());
         List<MtimeCinemaT> mtimeCinemaTList = mtimeCinemaTMapper.selectPage(page, mtimeCinemaTWrapper);
         if (CollectionUtils.isEmpty(mtimeCinemaTList)) {
-            return new RespVo(1, "影院信息查询失败");
+            return new RespVo(0,"");
         }
         List<CinemasDataVo> cinemasDataVos = new ArrayList<>();
         for (MtimeCinemaT mtimeCinemaT : mtimeCinemaTList) {
@@ -187,7 +191,8 @@ public class CinemaServiceImpl implements CinemaService {
         for (Map.Entry<Integer, List<FilmFieldsVo>> entry : map.entrySet()) {
             EntityWrapper<MtimeHallFilmInfoT> mtimeHallFilmInfoTEntityWrapper = new EntityWrapper<>();
             mtimeHallFilmInfoTEntityWrapper.eq("film_id", entry.getKey());
-            MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectByFilmId(entry.getKey());
+            MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectList(mtimeHallFilmInfoTEntityWrapper).get(0);
+
             CFilmVo CFilmVo = new CFilmVo();
             transFV(mtimeHallFilmInfoT, CFilmVo);
             List<FilmFieldsVo> value = entry.getValue();

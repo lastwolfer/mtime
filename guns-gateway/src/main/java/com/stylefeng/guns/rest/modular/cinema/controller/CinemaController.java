@@ -35,7 +35,7 @@ public class CinemaController {
         try {
             respVo = cinemaService.getCinemas(cinemasReqVo);
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             return new RespVo(999,"系统繁忙，请联系管理员");
         }
         return respVo;

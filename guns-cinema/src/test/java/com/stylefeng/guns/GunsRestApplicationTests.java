@@ -1,12 +1,5 @@
 package com.stylefeng.guns;
 
-<<<<<<< HEAD
-
-=======
-import com.stylefeng.guns.rest.common.persistence.dao.MtimeFieldTMapper;
-import com.stylefeng.guns.rest.service.impl.CinemaServiceImpl;
-import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVo;
->>>>>>> 3577df79b537337c7b2602127708f615afb87958
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
