@@ -1,5 +1,6 @@
 package com.stylefeng.guns.rest.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -52,7 +53,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeHallDictTMapper mtimeHallDictTMapper;
 
-    @Autowired
+    @Reference(interfaceClass = OrderService.class,check = false)
     OrderService orderService;
 
 

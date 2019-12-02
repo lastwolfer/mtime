@@ -1,6 +1,11 @@
 package com.stylefeng.guns.rest.modular.order.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
+import com.stylefeng.guns.service.order.MoocOrderTService;
+import com.stylefeng.guns.service.order.vo.BaseVo;
+import com.stylefeng.guns.service.order.vo.OrderVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.stylefeng.guns.service.cinema.CinemaService;
 import com.stylefeng.guns.service.film.vo.BaseRespVo;
 import com.stylefeng.guns.service.order.OrderService;
@@ -17,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("order")
 public class OrderController {
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @Reference(interfaceClass = CinemaService.class, check = false)
     CinemaService cinemaService;
@@ -67,7 +75,7 @@ public class OrderController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authorization = request.getHeader("Authorization");
         String authToken = authorization.substring(7);
-        return (UserInfo) redisTemplate.opsForValue().get(authorization);
+        return (UserInfo) redisTemplate.opsForValue().get(authToken);
     }
 
 }

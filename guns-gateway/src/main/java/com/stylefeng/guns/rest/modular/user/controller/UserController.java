@@ -93,7 +93,6 @@ public class UserController {
             baseVo.setMsg("成功退出");
             return baseVo;
         }
-        return new BaseVo(999, "系统出现异常,请联系管理员", null);
+        return new BaseVo(0, "成功退出", null);
     }
-
 }
