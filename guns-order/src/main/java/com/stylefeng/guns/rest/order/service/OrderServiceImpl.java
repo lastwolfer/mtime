@@ -152,7 +152,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String hasSoldSeatIds(Integer filedId) {
         String seatsIdsByFieldId = getSeatsIdsByFieldId(filedId);
-        String seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        String seatIds = "";
+        if(seatsIdsByFieldId !=null && seatsIdsByFieldId.length()>0) {
+             seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        }
         return seatIds;
     }
 }
