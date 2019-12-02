@@ -1,6 +1,8 @@
 package com.stylefeng.guns.rest.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -14,16 +16,18 @@ import com.stylefeng.guns.rest.common.persistence.model.MtimeHallDictT;
 import com.stylefeng.guns.rest.common.persistence.model.MtimeHallFilmInfoT;
 import com.stylefeng.guns.service.cinema.CinemaService;
 import com.stylefeng.guns.service.cinema.vo.*;
+import com.stylefeng.guns.service.order.OrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * <p>
@@ -49,9 +53,13 @@ public class CinemaServiceImpl implements CinemaService {
     @Autowired
     MtimeHallDictTMapper mtimeHallDictTMapper;
 
+    @Reference(interfaceClass = OrderService.class,check = false)
+    OrderService orderService;
+
 
     /**
      * 获取影院信息
+     *
      * @param cinemasReqVo
      * @return
      */
@@ -70,8 +78,8 @@ public class CinemaServiceImpl implements CinemaService {
         }
         Page<MtimeCinemaT> page = new Page<>(cinemasReqVo.getNowPage(), cinemasReqVo.getPageSize());
         List<MtimeCinemaT> mtimeCinemaTList = mtimeCinemaTMapper.selectPage(page, mtimeCinemaTWrapper);
-        if (CollectionUtils.isEmpty(mtimeCinemaTList)){
-            return new RespVo(1,"影院信息查询失败");
+        if (CollectionUtils.isEmpty(mtimeCinemaTList)) {
+            return new RespVo(1, "影院信息查询失败");
         }
         List<CinemasDataVo> cinemasDataVos = new ArrayList<>();
         for (MtimeCinemaT mtimeCinemaT : mtimeCinemaTList) {
@@ -79,7 +87,7 @@ public class CinemaServiceImpl implements CinemaService {
             BeanUtils.copyProperties(mtimeCinemaT, cinemasDataVo);
             cinemasDataVos.add(cinemasDataVo);
         }
-        long totalPage = (long) Math.ceil(page.getTotal()/(double)page.getSize());
+        long totalPage = (long) Math.ceil(page.getTotal() / (double) page.getSize());
         respVo.setStatus(0);
         respVo.setNowPage(cinemasReqVo.getNowPage());
         respVo.setTotalPage((int) totalPage);
@@ -89,15 +97,16 @@ public class CinemaServiceImpl implements CinemaService {
 
     /**
      * 获取场次详情信息
+     *
      * @param
      * @return
      */
     @Override
-    public RespVo getFieldInfo(Integer fieldId,Integer cinemaId) {
-        if (fieldId==null && cinemaId==null){
-            return new RespVo(1,"参数异常");
+    public RespVo getFieldInfo(Integer fieldId, Integer cinemaId) {
+        if (fieldId == null && cinemaId == null) {
+            return new RespVo(1, "参数异常");
         }
-        CinemaFilmInfoVo cinemaFilmInfoVo =  null;
+        CinemaFilmInfoVo cinemaFilmInfoVo = null;
         CinemaInfoVo cinemaInfoVo = null;
         HallInfoVo hallInfoVo = null;
 
@@ -118,7 +127,7 @@ public class CinemaServiceImpl implements CinemaService {
 
             cinemaInfoVo = new CinemaInfoVo();
             MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(cinemaId);
-            BeanUtils.copyProperties(mtimeCinemaT,cinemaInfoVo);
+            BeanUtils.copyProperties(mtimeCinemaT, cinemaInfoVo);
             cinemaInfoVo.setCinemaId(cinemaId);
             cinemaInfoVo.setImgUrl(mtimeCinemaT.getImgAddress());
 
@@ -128,10 +137,11 @@ public class CinemaServiceImpl implements CinemaService {
             hallInfoVo.setPrice(mtimeFieldT.getPrice());
             MtimeHallDictT mtimeHallDictT = mtimeHallDictTMapper.selectById(mtimeFieldT.getHallId());
             hallInfoVo.setSeatFile(mtimeHallDictT.getSeatAddress());
+
             hallInfoVo.setSoldSeats("1,2,3,5,12");
         } catch (BeansException e) {
 //           //e.printStackTrace();
-            return new RespVo(1,"查询失败");
+            return new RespVo(1, "查询失败");
         }
 
         FieldInfoRespDataVo fideInfoRespDataVo = new FieldInfoRespDataVo();
@@ -150,33 +160,33 @@ public class CinemaServiceImpl implements CinemaService {
         CinemaGetFieldsVo cinemaGetFieldsVo = new CinemaGetFieldsVo();
         MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(id);
         CinemaInfoVo cinemaInfoVo = new CinemaInfoVo();
-        transCGFV(mtimeCinemaT,cinemaInfoVo);
+        transCGFV(mtimeCinemaT, cinemaInfoVo);
 
         EntityWrapper<MtimeFieldT> mtimeFieldTEntityWrapper = new EntityWrapper<>();
-        mtimeFieldTEntityWrapper.eq("cinema_id",id);
+        mtimeFieldTEntityWrapper.eq("cinema_id", id);
         List<MtimeFieldT> mtimeFieldTS = mtimeFieldTMapper.selectList(mtimeFieldTEntityWrapper);
         List<FilmFieldsVo> filmFieldsVos = new ArrayList<>();
         HashMap<Integer, List<FilmFieldsVo>> map = new HashMap<>();
         Integer filmId;
         for (int i = 0; i < mtimeFieldTS.size(); i++) {
             FilmFieldsVo filmFieldsVo = new FilmFieldsVo();
-            transFFV(mtimeFieldTS.get(i),filmFieldsVo);
+            transFFV(mtimeFieldTS.get(i), filmFieldsVo);
             filmFieldsVos.add(filmFieldsVo);
             filmId = mtimeFieldTS.get(i).getFilmId();
-            if (map.containsKey(filmId)){
+            if (map.containsKey(filmId)) {
                 List<FilmFieldsVo> fieldsVos = map.get(filmId);
                 fieldsVos.add(filmFieldsVos.get(i));
-            }else {
+            } else {
                 List<FilmFieldsVo> fieldsVos = new ArrayList<>();
                 fieldsVos.add(filmFieldsVos.get(i));
-                map.put(filmId,fieldsVos);
+                map.put(filmId, fieldsVos);
             }
         }
 
         List<CFilmVo> CFilmVos = new ArrayList<>();
         for (Map.Entry<Integer, List<FilmFieldsVo>> entry : map.entrySet()) {
             EntityWrapper<MtimeHallFilmInfoT> mtimeHallFilmInfoTEntityWrapper = new EntityWrapper<>();
-            mtimeHallFilmInfoTEntityWrapper.eq("film_id",entry.getKey());
+            mtimeHallFilmInfoTEntityWrapper.eq("film_id", entry.getKey());
             MtimeHallFilmInfoT mtimeHallFilmInfoT = mtimeHallFilmInfoTMapper.selectByFilmId(entry.getKey());
             CFilmVo CFilmVo = new CFilmVo();
             transFV(mtimeHallFilmInfoT, CFilmVo);
@@ -193,26 +203,82 @@ public class CinemaServiceImpl implements CinemaService {
         return cinemaGetFieldsVo;
     }
 
-    private void transCGFV(MtimeCinemaT mtimeCinemaT,CinemaInfoVo cinemaInfoVo){
+    private void transCGFV(MtimeCinemaT mtimeCinemaT, CinemaInfoVo cinemaInfoVo) {
         cinemaInfoVo.setCinemaId(mtimeCinemaT.getUuid());
         cinemaInfoVo.setCinemaAddress(mtimeCinemaT.getCinemaAddress());
         cinemaInfoVo.setCinemaName(mtimeCinemaT.getCinemaName());
         cinemaInfoVo.setCinemaPhone(mtimeCinemaT.getCinemaPhone());
         cinemaInfoVo.setImgUrl(mtimeCinemaT.getImgAddress());
     }
-    private void transFFV(MtimeFieldT mtimeFieldT,FilmFieldsVo f){
+
+    private void transFFV(MtimeFieldT mtimeFieldT, FilmFieldsVo f) {
         f.setFieldId(mtimeFieldT.getUuid());
         f.setHallName(mtimeFieldT.getHallName());
         f.setPrice(mtimeFieldT.getPrice());
         f.setBeginTime(mtimeFieldT.getBeginTime());
         f.setEndTime(mtimeFieldT.getEndTime());
     }
-    private void transFV(MtimeHallFilmInfoT mtimeHallFilmInfoT, CFilmVo CFilmVo){
+
+    private void transFV(MtimeHallFilmInfoT mtimeHallFilmInfoT, CFilmVo CFilmVo) {
         CFilmVo.setActors(mtimeHallFilmInfoT.getActors());
         CFilmVo.setFilmCats(mtimeHallFilmInfoT.getFilmCats());
         CFilmVo.setFilmId(mtimeHallFilmInfoT.getFilmId());
         CFilmVo.setFilmLength(mtimeHallFilmInfoT.getFilmLength());
         CFilmVo.setFilmType(mtimeHallFilmInfoT.getFilmLanguage());
         CFilmVo.setImgAddress(mtimeHallFilmInfoT.getImgAddress());
+    }
+
+    //判断座位是否存在
+    public Boolean isTrueSeats(Integer fieldId, String seatId) {
+        //获取座位信息地址
+        String seatAddress = mtimeFieldTMapper.selectSeatAddressByFieldId(fieldId);
+        ClassPathResource classPathResource = new ClassPathResource(seatAddress);
+        byte[] bytes = new byte[1024];
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (InputStream inputStream = classPathResource.getInputStream()) {
+            int len = -1;
+            while ((len = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, len);
+            }
+            String string = outputStream.toString();
+            outputStream.close();
+            Map map = JSONObject.parseObject(string, Map.class);
+            String ids = (String) map.get("ids");
+            String[] split = ids.split(",");
+            List list = CollectionUtils.arrayToList(split);
+            String[] split1 = seatId.split(",");
+            for (String s : split1) {
+                int i = list.indexOf(s);
+                if (i == -1) {
+                    return false;
+                }
+            }
+//            System.out.println(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public FieldInfoForOrderVo getOrderField(Integer uuid) {
+        MtimeFieldT mtimeFieldT = mtimeFieldTMapper.selectById(uuid);
+        FieldInfoForOrderVo fieldInfoForOrderVo = new FieldInfoForOrderVo();
+        BeanUtils.copyProperties(mtimeFieldT, fieldInfoForOrderVo);
+        return fieldInfoForOrderVo;
+    }
+
+    /**
+     * 根据ID获取cinema信息
+     * @return
+     * @param cinemaId
+     */
+    @Override
+    public CinemaInfoVo getCinemaById(Integer cinemaId) {
+        MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(cinemaId);
+        CinemaInfoVo cinemaInfoVo = new CinemaInfoVo();
+        BeanUtils.copyProperties(mtimeCinemaT,cinemaInfoVo);
+        return cinemaInfoVo;
     }
 }

@@ -45,4 +45,7 @@ public interface FilmService {
     FilmsVo getFilms(FilmReqVo3 filmReqVo);
 
     FilmDetailVo getFilmDetail(int searchType, String searchParam);
+
+    String getFilmNameById(Integer uuid);
+
 }

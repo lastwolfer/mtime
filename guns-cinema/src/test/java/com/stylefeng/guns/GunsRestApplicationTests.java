@@ -1,21 +1,32 @@
 package com.stylefeng.guns;
 
+<<<<<<< HEAD
 
+=======
+import com.stylefeng.guns.rest.common.persistence.dao.MtimeFieldTMapper;
+import com.stylefeng.guns.rest.service.impl.CinemaServiceImpl;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVo;
+>>>>>>> 3577df79b537337c7b2602127708f615afb87958
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RunWith(SpringRunner.class)
 @SpringBootConfiguration
 @SpringBootTest
-@MapperScan(basePackages = "com.stylefeng.guns.cinema.persistence.dao")
+@MapperScan("com.stylefeng.guns.rest.common.persistence.dao")
 public class GunsRestApplicationTests {
 
 	@Test
 	public void contextLoads() {
 	}
-
 }

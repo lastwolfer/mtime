@@ -2,8 +2,10 @@ package com.stylefeng.guns.service.film.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class BaseRespVo<T> {
+public class BaseRespVo<T> implements Serializable {
 
     T data;
     /**
@@ -25,6 +27,13 @@ public class BaseRespVo<T> {
         objectBaseRespVo.setStatus(0);
         objectBaseRespVo.setData(o);
         objectBaseRespVo.setStatus(0);
+        return objectBaseRespVo;
+    }
+
+    public static BaseRespVo fail(Integer status,String msg){
+        BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
+        objectBaseRespVo.setStatus(status);
+        objectBaseRespVo.setMsg(msg);
         return objectBaseRespVo;
     }
 

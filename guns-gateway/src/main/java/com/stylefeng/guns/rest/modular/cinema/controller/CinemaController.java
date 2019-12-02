@@ -69,4 +69,11 @@ public class CinemaController {
         RespVo respVo = conditionService.getCondition(cinemaCondition);
         return respVo;
     }
+
+
+    @RequestMapping("isTrue")
+    public Boolean isTrue(Integer fieldId,String seatId){
+        Boolean trueSeats = cinemaService.isTrueSeats(fieldId, seatId);
+        return trueSeats;
+    }
 }

@@ -1,16 +1,10 @@
 package com.stylefeng.guns.rest.config;
 
-<<<<<<< HEAD
+
 import com.stylefeng.guns.rest.modular.auth.filter.AuthFilter;
 import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
 import com.stylefeng.guns.rest.modular.auth.security.impl.Base64SecurityAction;
 import com.stylefeng.guns.rest.config.properties.RestProperties;
-=======
-import com.stylefeng.guns.rest.config.properties.RestProperties;
-import com.stylefeng.guns.rest.modular.auth.filter.AuthFilter;
-import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
-import com.stylefeng.guns.rest.modular.auth.security.impl.Base64SecurityAction;
->>>>>>> 951ff2a3c62298faf2075002f6dc26d7eb33f358
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -13,5 +13,10 @@
         <result column="hall_name" property="hallName" />
         <result column="price" property="price" />
     </resultMap>
+    <select id="selectSeatAddressByFieldId" resultType="java.lang.String">
+        select hd.seat_address from
+        mtime_field_t f inner join mtime_hall_dict_t hd
+        on f.hall_id = hd.uuid where f.uuid=#{filedId}
+    </select>
 
 </mapper>

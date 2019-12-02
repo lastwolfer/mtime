@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * 订单信息表 Mapper 接口
  * </p>
  *
- * @author Mainzer
- * @since 2019-11-30
+ * @author pandsx
+ * @since 2019-12-01
  */
 public interface MoocOrderTMapper extends BaseMapper<MoocOrderT> {
 
