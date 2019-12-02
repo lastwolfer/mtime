@@ -18,12 +18,14 @@ import com.stylefeng.guns.service.film.FilmService;
 import com.stylefeng.guns.service.film.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 
 import java.util.*;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Da
@@ -211,27 +213,34 @@ public class FilmServiceImpl implements FilmService {
 
     @Value("${meeting.film.preImg}")
     String imgPre;
+    @Autowired
+    RedisTemplate redisTemplate;
     @Override
     public Map<String, Object> getIndex() {
-        HashMap<String, Object> map = new HashMap<>();
-        //1获取banners
+        Map<String,Object> map = (Map<String, Object>) redisTemplate.opsForValue().get("index");
+        System.out.println("map="+map);
+        if(map==null){
+            map=new HashMap<>();
+            //1获取banners
 //        EntityWrapper<MtimeBannerT> wrapper = new EntityWrapper<>();
 //        List<MtimeBannerT> mtimeBannerTS = bannerTMapper.selectList(wrapper);
-        map.put("banners",getBanners());
-        //2.获取boxRanking
-        List<FilmTVo> boxRank = getBoxRank();
-        map.put("boxRanking", boxRank);
-        //3.获取expectRanking
-        map.put("expectRanking",getExceptRank());
-        //4.hotFiles
-        map.put("hotFilms",getHotFilms());
-        //5.
-        map.put("top100",getTop());
-        map.put("soonFilms",getSoonFilms());
+            map.put("banners",getBanners());
+            //2.获取boxRanking
+            List<FilmTVo> boxRank = getBoxRank();
+            map.put("boxRanking", boxRank);
+            //3.获取expectRanking
+            map.put("expectRanking",getExceptRank());
+            //4.hotFiles
+            map.put("hotFilms",getHotFilms());
+            //5.
+            map.put("top100",getTop());
+            map.put("soonFilms",getSoonFilms());
+
+            redisTemplate.opsForValue().set("index",map);
+            redisTemplate.expire("index",1000 , TimeUnit.MILLISECONDS);
+        }
         return map;
     }
-
-
     @Autowired
     MtimeCatDictTMapper catDictTMapper;
     @Override
@@ -315,13 +324,19 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Map<String, Object> getCondition(Integer catId, Integer sourceId, Integer yearId) {
-        List<CatVo> catDirt = getCatDirt(catId);
-        List<SourceVo> sources = getSources(sourceId);
-        List<YearVo> byYear = getByYear(yearId);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("catInfo",catDirt);
-        map.put("sourceInfo",sources);
-        map.put("yearInfo",byYear);
+        Map<String,Object> map= (Map<String, Object>) redisTemplate.opsForValue().get("condition");
+        System.out.println("condition="+map);
+        if(map==null){
+            List<CatVo> catDirt = getCatDirt(catId);
+            List<SourceVo> sources = getSources(sourceId);
+            List<YearVo> byYear = getByYear(yearId);
+            map = new HashMap<>();
+            map.put("catInfo",catDirt);
+            map.put("sourceInfo",sources);
+            map.put("yearInfo",byYear);
+            redisTemplate.opsForValue().set("condition",map);
+            redisTemplate.expire("index",1000 , TimeUnit.MILLISECONDS);
+        }
         return map;
     }
     public FilmDetailVo getFilmDetail(int searchType, String searchParam) {

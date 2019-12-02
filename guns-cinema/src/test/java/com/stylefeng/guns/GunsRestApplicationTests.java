@@ -1,7 +1,6 @@
 package com.stylefeng.guns;
 
-import com.stylefeng.guns.rest.service.impl.CinemaServiceImpl;
-import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -17,9 +16,6 @@ public class GunsRestApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		CinemaServiceImpl mtimeCinemaTService = new CinemaServiceImpl();
-		CinemaGetFieldsVO fileds = mtimeCinemaTService.getFileds(1);
-		System.out.println(fileds);
 	}
 
 }
