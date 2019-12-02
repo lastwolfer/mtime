@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface MtimeFieldTMapper extends BaseMapper<MtimeFieldT> {
 
+    String selectSeatAddressByFieldId(Integer filedId);
 }

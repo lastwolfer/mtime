@@ -27,4 +27,11 @@ public class BaseRespVo<T> {
         return objectBaseRespVo;
     }
 
+    public static BaseRespVo fail(Integer status,String msg){
+        BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
+        objectBaseRespVo.setStatus(status);
+        objectBaseRespVo.setMsg(msg);
+        return objectBaseRespVo;
+    }
+
 }

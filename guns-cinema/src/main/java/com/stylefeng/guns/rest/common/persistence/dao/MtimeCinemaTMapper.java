@@ -2,7 +2,7 @@ package com.stylefeng.guns.rest.common.persistence.dao;
 
 import com.stylefeng.guns.rest.common.persistence.model.MtimeCinemaT;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVO;
+import com.stylefeng.guns.service.cinema.vo.CinemaGetFieldsVo;
 
 /**
  * <p>
