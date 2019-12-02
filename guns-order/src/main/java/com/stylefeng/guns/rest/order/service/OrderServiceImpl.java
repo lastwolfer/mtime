@@ -1,5 +1,7 @@
 package com.stylefeng.guns.rest.order.service;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.stylefeng.guns.rest.common.persistence.dao.MoocOrderTMapper;
@@ -13,6 +15,7 @@ import com.stylefeng.guns.service.order.OrderService;
 import com.stylefeng.guns.service.order.vo.OrderVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
@@ -21,13 +24,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Component
+@Service(interfaceClass = OrderService.class)
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     MoocOrderTMapper moocOrderTMapper;
-    @Autowired
+
+    @Reference(interfaceClass = CinemaService.class,check = false)
     CinemaService cinemaService;
-    @Autowired
+
+    @Reference(interfaceClass = FilmService.class,check = false)
     FilmService filmService;
 
     @Override
@@ -99,6 +106,9 @@ public class OrderServiceImpl implements OrderService {
             orderVo.setFieldTime(format);
             CinemaInfoVo cinema = cinemaService.getCinemaById(moocOrderT.getCinemaId());
             orderVo.setCinemaName(cinema.getCinemaName());
+            orderVo.setOrderId(moocOrderT.getUuid());
+            orderVo.setOrderPrice(String.valueOf(moocOrderT.getOrderPrice()));
+            orderVo.setOrderTimestamp(String.valueOf(System.currentTimeMillis()));
             if (moocOrderT.getOrderStatus()==0){
                 orderVo.setOrderStatus("未支付");
             }
