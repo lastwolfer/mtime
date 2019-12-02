@@ -51,6 +51,12 @@ public class OrderController {
             respVo.setMsg("座位不存在");
             return respVo;
         }
+        if(orderService.isSoldSeats(fieldId, soldSeats)){
+            BaseRespVo<Object> respVo = new BaseRespVo<>();
+            respVo.setStatus(1);
+            respVo.setMsg("所选座位已售出");
+            return respVo;
+        }
         UserInfo userInfo = getUserInfo();
         return orderService.buyTickets(fieldId, soldSeats, seatsName, userInfo.getUuid());
     }

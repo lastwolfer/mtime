@@ -30,7 +30,7 @@ spring:
   application:
     name: guns-user
   dubbo:
-    registry: zookeeper://localhost:2181
+    registry: zookeeper://106.14.140.211:2181
     server: true
     protocol:
       name: dubbo

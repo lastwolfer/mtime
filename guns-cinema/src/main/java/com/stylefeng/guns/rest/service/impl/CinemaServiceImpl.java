@@ -138,7 +138,9 @@ public class CinemaServiceImpl implements CinemaService {
             MtimeHallDictT mtimeHallDictT = mtimeHallDictTMapper.selectById(mtimeFieldT.getHallId());
             hallInfoVo.setSeatFile(mtimeHallDictT.getSeatAddress());
 
-            hallInfoVo.setSoldSeats("1,2,3,5,12");
+            String hasSoldSeatIds = orderService.hasSoldSeatIds(fieldId);
+//            hallInfoVo.setSoldSeats("1,2,3,5,12");
+            hallInfoVo.setSoldSeats(hasSoldSeatIds);
         } catch (BeansException e) {
 //           //e.printStackTrace();
             return new RespVo(1, "查询失败");

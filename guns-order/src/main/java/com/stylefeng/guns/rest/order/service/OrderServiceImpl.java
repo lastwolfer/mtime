@@ -15,14 +15,12 @@ import com.stylefeng.guns.service.order.OrderService;
 import com.stylefeng.guns.service.order.vo.OrderVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -40,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId) {
         //先将数据存进去
-        String uuid = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         MoocOrderT moocOrderT = new MoocOrderT();
         moocOrderT.setUuid(uuid);
         FieldInfoForOrderVo field = cinemaService.getOrderField(fieldId);
@@ -123,11 +121,38 @@ public class OrderServiceImpl implements OrderService {
         return BaseRespVo.ok(orderVos);
     }
 
-    @Override
-    public String getSeatsIdsByFieldId(Integer fieldId) {
+    private String getSeatsIdsByFieldId(Integer fieldId) {
         EntityWrapper wrapper = new EntityWrapper();
-        wrapper.eq("field_id",fieldId).ne("order_status",2);
-        List list = moocOrderTMapper.selectList(wrapper);
-        return null;
+    /*wrapper.eq("field_id",fieldId).ne("order_status",2);
+    List list = moocOrderTMapper.selectList(wrapper);*/
+        EntityWrapper<MoocOrderT> moocOrderTEntityWrapper = new EntityWrapper<>();
+        moocOrderTEntityWrapper.eq("field_id",fieldId).ne("order_status",2);
+        List<MoocOrderT> list = moocOrderTMapper.selectList(moocOrderTEntityWrapper);
+        StringBuilder sb = new StringBuilder();
+        for (MoocOrderT moocOrderT : list) {
+            sb.append(moocOrderT.getSeatsIds()).append(",");
+        }
+        //这个末尾有个逗号，后面匹配的时候有用
+        return sb.toString();
+    }
+
+    @Override
+    public Boolean isSoldSeats(Integer filedId, String seatId) {
+        String seatIds = "," + getSeatsIdsByFieldId(filedId);
+        String[] seatIdsFromClient = seatId.split(",");
+        for (String seatID : seatIdsFromClient) {
+            String need2jug = "," + seatID + ",";
+            if(seatIds.contains(need2jug)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String hasSoldSeatIds(Integer filedId) {
+        String seatsIdsByFieldId = getSeatsIdsByFieldId(filedId);
+        String seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        return seatIds;
     }
 }

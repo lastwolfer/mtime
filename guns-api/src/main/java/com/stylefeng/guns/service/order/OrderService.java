@@ -12,5 +12,9 @@ public interface OrderService {
 
     BaseRespVo getOrderInfo(Integer nowPage, Integer pageSize, Integer uuid);
 
-    String getSeatsIdsByFieldId(Integer fieldId);
+//    String getSeatsIdsByFieldId(Integer fieldId);
+
+    Boolean isSoldSeats(Integer filedId,String seatId);
+
+    String hasSoldSeatIds(Integer filedId);
 }
