@@ -19,10 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Service(interfaceClass = OrderService.class)
@@ -123,11 +120,64 @@ public class OrderServiceImpl implements OrderService {
         return BaseRespVo.ok(orderVos);
     }
 
-    @Override
-    public String getSeatsIdsByFieldId(Integer fieldId) {
+    /**
+     * 根据场次id获取座位信息
+     * @param fieldId 场次id
+     * @return
+     */
+    private String getSeatsIdsByFieldId(Integer fieldId) {
         EntityWrapper wrapper = new EntityWrapper();
-        wrapper.eq("field_id",fieldId).ne("order_status",2);
-        List list = moocOrderTMapper.selectList(wrapper);
-        return null;
+        /*wrapper.eq("field_id",fieldId).ne("order_status",2);
+        List list = moocOrderTMapper.selectList(wrapper);*/
+        EntityWrapper<MoocOrderT> moocOrderTEntityWrapper = new EntityWrapper<>();
+        moocOrderTEntityWrapper.eq("field_id",fieldId).ne("order_status",2);
+        List<MoocOrderT> list = moocOrderTMapper.selectList(moocOrderTEntityWrapper);
+        StringBuilder sb = new StringBuilder();
+        for (MoocOrderT moocOrderT : list) {
+            sb.append(moocOrderT.getSeatsIds()).append(",");
+        }
+        //这个末尾有个逗号，后面匹配的时候有用
+        return sb.toString();
     }
+
+    /**
+     * 判断下单的座位数据是否已经被选择
+     * @param filedId 场次id
+     * @param seatId 座位id（s）
+     * @return
+     */
+    @Override
+    public Boolean isSoldSeats(Integer filedId, String seatId) {
+        String seatIds = "," + getSeatsIdsByFieldId(filedId);
+        String[] seatIdsFromClient = seatId.split(",");
+        for (String seatID : seatIdsFromClient) {
+            String need2jug = "," + seatID + ",";
+            if(seatIds.contains(need2jug)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 根据场次id获得所有座位信息
+     * @param filedId
+     * @return
+     */
+    @Override
+    public String hasSoldSeatIds(Integer filedId) {
+        String seatsIdsByFieldId = getSeatsIdsByFieldId(filedId);
+        String seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        return seatIds;
+    }
+
+    @Override
+    public com.stylefeng.guns.service.order.vo.MoocOrderT getOrderById(Integer id) {
+        com.stylefeng.guns.service.order.vo.MoocOrderT moocOrderTFromAPI = new com.stylefeng.guns.service.order.vo.MoocOrderT();
+        MoocOrderT moocOrderT = moocOrderTMapper.selectById(id);
+        BeanUtils.copyProperties(moocOrderT, moocOrderTFromAPI);
+        return moocOrderTFromAPI;
+    }
+
+
 }
