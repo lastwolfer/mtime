@@ -17,4 +17,8 @@
         <result column="order_status" property="orderStatus" />
     </resultMap>
 
+    <update id="cancelOrder">
+      update mooc_order_t set order_status = 2 where uuid = #{orderId}
+    </update>
+
 </mapper>

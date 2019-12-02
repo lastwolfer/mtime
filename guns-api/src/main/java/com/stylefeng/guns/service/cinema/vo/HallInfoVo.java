@@ -17,5 +17,5 @@ public class HallInfoVo implements Serializable {
 
     private String seatFile;
 
-    private String soldSeats = "1,2,3,5,12";
+    private String soldSeats;
 }
