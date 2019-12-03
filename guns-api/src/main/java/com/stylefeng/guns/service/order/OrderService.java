@@ -16,7 +16,7 @@ public interface OrderService {
 
     String hasSoldSeatIds(Integer filedId);
 
-    MoocOrderT getOrderById(Integer id);
+    MoocOrderT getOrderById(String id);
 
 //    String getSeatsIdsByFieldId(Integer fieldId);
 }

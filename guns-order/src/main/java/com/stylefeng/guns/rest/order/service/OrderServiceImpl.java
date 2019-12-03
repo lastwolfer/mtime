@@ -178,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public com.stylefeng.guns.service.order.vo.MoocOrderT getOrderById(Integer id) {
+    public com.stylefeng.guns.service.order.vo.MoocOrderT getOrderById(String id) {
         com.stylefeng.guns.service.order.vo.MoocOrderT moocOrderTFromAPI = new com.stylefeng.guns.service.order.vo.MoocOrderT();
         MoocOrderT moocOrderT = moocOrderTMapper.selectById(id);
         BeanUtils.copyProperties(moocOrderT, moocOrderTFromAPI);

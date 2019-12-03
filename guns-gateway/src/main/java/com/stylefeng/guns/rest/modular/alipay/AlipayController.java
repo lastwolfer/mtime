@@ -24,7 +24,7 @@ public class AlipayController {
 
     @RequestMapping("order/getPayInfo")
     public BaseVo pay(Map map){
-        Integer orderId = (Integer) map.get("orderId");
+        String orderId = (String) map.get("orderId");
         String pay = alipayService.pay(orderId);
         BaseVo baseVo = new BaseVo();
         PayDetail payDetail = new PayDetail();
