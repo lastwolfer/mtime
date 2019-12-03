@@ -13,12 +13,14 @@ import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
+import com.alipay.demo.trade.utils.COSUtils;
+import com.alipay.demo.trade.utils.ZxingUtils;
 import com.stylefeng.guns.service.alipay.AlipayService;
 import com.stylefeng.guns.service.order.OrderService;
-import com.stylefeng.guns.service.order.vo.MoocOrderT;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stylefeng.guns.service.order.vo.MoocOrder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +40,10 @@ public class AlipayServiceImpl implements AlipayService {
 
 
     // 支付宝当面付2.0服务
-    private static AlipayTradeService   tradeService;
+    private static AlipayTradeService tradeService;
 
     // 支付宝当面付2.0服务（集成了交易保障接口逻辑）
-    private static AlipayTradeService   tradeWithHBService;
+    private static AlipayTradeService tradeWithHBService;
 
     // 支付宝交易保障接口服务，供测试接口api使用，请先阅读readme.txt
     private static AlipayMonitorService monitorService;
@@ -68,14 +70,14 @@ public class AlipayServiceImpl implements AlipayService {
 
 
     @Override
-    public String pay(Integer orderId) {
+    public String pay(String orderId) {
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
         // 需保证商户系统端不能重复，建议通过数据库sequence生成，
         /*String outTradeNo = "tradeprecreate" + System.currentTimeMillis()
                             + (long) (Math.random() * 10000000L);*/
         String outTradeNo = "tradeprecreate" + orderId;
 
-        MoocOrderT order = orderService.getOrderById(orderId);
+        MoocOrder order = orderService.getOrderById(orderId);
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         String subject = "Meeting影院支付";
@@ -128,13 +130,16 @@ public class AlipayServiceImpl implements AlipayService {
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
-        String filePath = "";
+        String qrCode = "";
         switch (result.getTradeStatus()) {
             case SUCCESS:
                 AlipayTradePrecreateResponse response = result.getResponse();
                 // 需要修改为运行机器上的路径
-                filePath = String.format("E:\\17th\\17th\\project3\\alipay-img\\qr-%s.png",
+                String filePath = String.format("C:\\Users\\agang\\Desktop/qr-%s.png",
                         response.getOutTradeNo());
+                File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                qrCode = COSUtils.qrCode(qrCodeImge);
+
                 break;
 
             case FAILED:
@@ -146,6 +151,6 @@ public class AlipayServiceImpl implements AlipayService {
             default:
                 break;
         }
-        return filePath;
+        return qrCode;
     }
 }

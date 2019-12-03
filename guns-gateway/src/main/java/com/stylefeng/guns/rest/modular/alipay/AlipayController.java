@@ -23,15 +23,14 @@ public class AlipayController {
     AlipayService alipayService;
 
     @RequestMapping("order/getPayInfo")
-    public BaseVo pay(Map map){
-        Integer orderId = (Integer) map.get("orderId");
+    public BaseVo pay(String orderId){
         String pay = alipayService.pay(orderId);
         BaseVo baseVo = new BaseVo();
         PayDetail payDetail = new PayDetail();
         payDetail.setOrderId(orderId.toString());
         payDetail.setQRCodeAddress(pay);
         baseVo.setData(payDetail);
-        baseVo.setImgPre("lalalalalaal");
+        baseVo.setImgPre("https://picture-agang-1300811584.cos.ap-beijing.myqcloud.com/");
         baseVo.setStatus(0);
         return baseVo;
     }
