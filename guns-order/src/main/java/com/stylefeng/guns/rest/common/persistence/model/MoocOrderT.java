@@ -25,7 +25,11 @@ public class MoocOrderT extends Model<MoocOrderT> {
     /**
      * 主键编号
      */
+<<<<<<< HEAD
     @TableId(value = "UUID", type = IdType.UUID)
+=======
+    @TableId(value = "UUID", type = IdType.ID_WORKER_STR)
+>>>>>>> e84424777f24af9ae68aed7ed9cc182b13983f23
     private String uuid;
     /**
      * 影院编号
@@ -174,7 +178,7 @@ public class MoocOrderT extends Model<MoocOrderT> {
 
     @Override
     public String toString() {
-        return "MoocOrderT{" +
+        return "MoocOrder{" +
         "uuid=" + uuid +
         ", cinemaId=" + cinemaId +
         ", fieldId=" + fieldId +

@@ -2,7 +2,7 @@ package com.stylefeng.guns.service.order;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.stylefeng.guns.service.film.vo.BaseRespVo;
-import com.stylefeng.guns.service.order.vo.MoocOrderT;
+import com.stylefeng.guns.service.order.vo.MoocOrder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +16,7 @@ public interface OrderService {
 
     String hasSoldSeatIds(Integer filedId);
 
-    MoocOrderT getOrderById(String id);
+    MoocOrder getOrderById(String id);
 
 //    String getSeatsIdsByFieldId(Integer fieldId);
 }

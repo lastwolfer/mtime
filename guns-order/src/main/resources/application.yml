@@ -30,7 +30,7 @@ spring:
   application:
     name: guns-order
   dubbo:
-    registry: zookeeper://106.14.140.211:2181
+    registry: zookeeper://127.0.0.1:2181
     server: true
     protocol:
       name: dubbo

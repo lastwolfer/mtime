@@ -2,23 +2,30 @@ package com.alipay.demo.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alipay.api.domain.TradeFundBill;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
 import com.alipay.demo.trade.model.builder.AlipayTradePrecreateRequestBuilder;
+import com.alipay.demo.trade.model.builder.AlipayTradeQueryRequestBuilder;
 import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
+import com.alipay.demo.trade.model.result.AlipayF2FQueryResult;
 import com.alipay.demo.trade.service.AlipayMonitorService;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayMonitorServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.alipay.demo.trade.service.impl.AlipayTradeWithHBServiceImpl;
+import com.alipay.demo.trade.utils.COSUtils;
+import com.alipay.demo.trade.utils.Utils;
+import com.alipay.demo.trade.utils.ZxingUtils;
 import com.stylefeng.guns.service.alipay.AlipayService;
 import com.stylefeng.guns.service.order.OrderService;
-import com.stylefeng.guns.service.order.vo.MoocOrderT;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stylefeng.guns.service.order.vo.MoocOrder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +45,10 @@ public class AlipayServiceImpl implements AlipayService {
 
 
     // 支付宝当面付2.0服务
-    private static AlipayTradeService   tradeService;
+    private static AlipayTradeService tradeService;
 
     // 支付宝当面付2.0服务（集成了交易保障接口逻辑）
-    private static AlipayTradeService   tradeWithHBService;
+    private static AlipayTradeService tradeWithHBService;
 
     // 支付宝交易保障接口服务，供测试接口api使用，请先阅读readme.txt
     private static AlipayMonitorService monitorService;
@@ -75,7 +82,7 @@ public class AlipayServiceImpl implements AlipayService {
                             + (long) (Math.random() * 10000000L);*/
         String outTradeNo = "tradeprecreate" + orderId;
 
-        MoocOrderT order = orderService.getOrderById(orderId);
+        MoocOrder order = orderService.getOrderById(orderId);
 
         // (必填) 订单标题，粗略描述用户的支付目的。如“xxx品牌xxx门店当面付扫码消费”
         String subject = "Meeting影院支付";
@@ -128,13 +135,16 @@ public class AlipayServiceImpl implements AlipayService {
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
-        String filePath = "";
+        String qrCode = "";
         switch (result.getTradeStatus()) {
             case SUCCESS:
                 AlipayTradePrecreateResponse response = result.getResponse();
                 // 需要修改为运行机器上的路径
-                filePath = String.format("E:\\17th\\17th\\project3\\alipay-img\\qr-%s.png",
+                String filePath = String.format("E:\\17th\\17th\\project3\\alipay-img\\qr-%s.png",
                         response.getOutTradeNo());
+                File qrCodeImge = ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                qrCode = COSUtils.qrCode(qrCodeImge);
+
                 break;
 
             case FAILED:
@@ -146,6 +156,57 @@ public class AlipayServiceImpl implements AlipayService {
             default:
                 break;
         }
-        return filePath;
+        return qrCode;
     }
+
+    /**
+     * 检查订单交易情况
+     * @param orderId
+     * @return 状态码 0 → 交易成功 1 → 失败或关闭 2 & 3 → 未知
+     */
+    @Override
+    public Integer check(String orderId) {
+        // (必填) 商户订单号，通过此商户订单号查询当面付的交易状态
+        String outTradeNo = "tradeprecreate" + orderId;
+
+        // 创建查询请求builder，设置请求参数
+        AlipayTradeQueryRequestBuilder builder = new AlipayTradeQueryRequestBuilder()
+                .setOutTradeNo(outTradeNo);
+
+        AlipayF2FQueryResult result = tradeService.queryTradeResult(builder);
+        Integer status = null;
+        switch (result.getTradeStatus()) {
+            case SUCCESS:
+                /*log.info("查询返回该订单支付成功: )");
+
+                AlipayTradeQueryResponse response = result.getResponse();
+                dumpResponse(response);
+
+                log.info(response.getTradeStatus());
+                if (Utils.isListNotEmpty(response.getFundBillList())) {
+                    for (TradeFundBill bill : response.getFundBillList()) {
+                        log.info(bill.getFundChannel() + ":" + bill.getAmount());
+                    }
+                }*/
+                status = 0;
+                break;
+
+            case FAILED:
+//                log.error("查询返回该订单支付失败或被关闭!!!");
+                status = 1;
+                break;
+
+            case UNKNOWN:
+//                log.error("系统异常，订单支付状态未知!!!");
+                status = 2;
+                break;
+
+            default:
+//                log.error("不支持的交易状态，交易返回异常!!!");
+                status = 3;
+                break;
+        }
+        return status;
+    }
+
 }

@@ -12,14 +12,13 @@ import com.stylefeng.guns.service.cinema.vo.FieldInfoForOrderVo;
 import com.stylefeng.guns.service.film.FilmService;
 import com.stylefeng.guns.service.film.vo.BaseRespVo;
 import com.stylefeng.guns.service.order.OrderService;
+import com.stylefeng.guns.service.order.vo.MoocOrder;
 import com.stylefeng.guns.service.order.vo.OrderVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -70,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 //        long time = System.currentTimeMillis() / 1000;
         Date time = new Date();
         String filmTime = new SimpleDateFormat("yyyy年MM月dd日 ").format(time);
-        orderVo.setFieldTime(filmTime+ field.getBeginTime());
+        orderVo.setFieldTime(filmTime + field.getBeginTime());
         CinemaInfoVo cinema = cinemaService.getCinemaById(field.getCinemaId());
         orderVo.setCinemaName(cinema.getCinemaName());
         orderVo.setSeatsName(seatsName);
@@ -128,6 +127,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 根据场次id获取座位信息
+     *
      * @param fieldId 场次id
      * @return
      */
@@ -136,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
         /*wrapper.eq("field_id",fieldId).ne("order_status",2);
         List list = moocOrderTMapper.selectList(wrapper);*/
         EntityWrapper<MoocOrderT> moocOrderTEntityWrapper = new EntityWrapper<>();
-        moocOrderTEntityWrapper.eq("field_id",fieldId).ne("order_status",2);
+        moocOrderTEntityWrapper.eq("field_id", fieldId).ne("order_status", 2);
         List<MoocOrderT> list = moocOrderTMapper.selectList(moocOrderTEntityWrapper);
         StringBuilder sb = new StringBuilder();
         for (MoocOrderT moocOrderT : list) {
@@ -148,8 +148,9 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 判断下单的座位数据是否已经被选择
+     *
      * @param filedId 场次id
-     * @param seatId 座位id（s）
+     * @param seatId  座位id（s）
      * @return
      */
     @Override
@@ -158,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
         String[] seatIdsFromClient = seatId.split(",");
         for (String seatID : seatIdsFromClient) {
             String need2jug = "," + seatID + ",";
-            if(seatIds.contains(need2jug)){
+            if (seatIds.contains(need2jug)) {
                 return true;
             }
         }
@@ -167,19 +168,28 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 根据场次id获得所有座位信息
+     *
      * @param filedId
      * @return
      */
     @Override
     public String hasSoldSeatIds(Integer filedId) {
         String seatsIdsByFieldId = getSeatsIdsByFieldId(filedId);
-        String seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        String seatIds = "";
+        if (seatsIdsByFieldId!=null&&!seatsIdsByFieldId.trim().isEmpty()){
+            seatIds = seatsIdsByFieldId.substring(0, seatsIdsByFieldId.length() - 1);
+        }
         return seatIds;
     }
 
     @Override
+<<<<<<< HEAD
     public com.stylefeng.guns.service.order.vo.MoocOrderT getOrderById(String id) {
         com.stylefeng.guns.service.order.vo.MoocOrderT moocOrderTFromAPI = new com.stylefeng.guns.service.order.vo.MoocOrderT();
+=======
+    public MoocOrder getOrderById(String id) {
+        MoocOrder moocOrderTFromAPI = new MoocOrder();
+>>>>>>> e84424777f24af9ae68aed7ed9cc182b13983f23
         MoocOrderT moocOrderT = moocOrderTMapper.selectById(id);
         BeanUtils.copyProperties(moocOrderT, moocOrderTFromAPI);
         return moocOrderTFromAPI;

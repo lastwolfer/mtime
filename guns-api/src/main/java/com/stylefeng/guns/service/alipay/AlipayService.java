@@ -9,4 +9,6 @@ package com.stylefeng.guns.service.alipay;
 
 public interface AlipayService {
     String pay(String orderId);
+
+    Integer check(String orderId);
 }
