@@ -36,7 +36,6 @@ public class AlipayServiceImpl implements AlipayService {
     @Reference(interfaceClass = OrderService.class, check = false)
     OrderService orderService;
 
-
     // 支付宝当面付2.0服务
     private static AlipayTradeService   tradeService;
 

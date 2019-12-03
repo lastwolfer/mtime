@@ -142,10 +142,7 @@ public class CinemaServiceImpl implements CinemaService {
             MtimeHallDictT mtimeHallDictT = mtimeHallDictTMapper.selectById(mtimeFieldT.getHallId());
             hallInfoVo.setSeatFile(mtimeHallDictT.getSeatAddress());
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 9fbd3097e708038efa0df2bd59f84962e78828c2
             String hasSoldSeatIds = orderService.hasSoldSeatIds(fieldId);
 //            hallInfoVo.setSoldSeats("1,2,3,5,12");
             hallInfoVo.setSoldSeats(hasSoldSeatIds);

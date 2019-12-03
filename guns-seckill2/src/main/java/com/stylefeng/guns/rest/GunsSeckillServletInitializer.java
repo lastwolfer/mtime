@@ -1,4 +1,4 @@
-package com.alipay.demo.alipay;
+package com.stylefeng.guns.rest;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -9,11 +9,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author fengshuonan
  * @date 2017年9月29日09:00:42
  */
-public class GunsUserServletInitializer extends SpringBootServletInitializer {
+public class GunsSeckillServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(GunsAlipayApplication.class);
+        return builder.sources(GunsSeckillApplication.class);
     }
 
 }

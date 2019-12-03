@@ -20,6 +20,7 @@
         <module>guns-gateway</module>
         <module>guns-api</module>
         <module>guns-alipay</module>
+        <module>guns-seckill2</module>
     </modules>
 
     <parent>
