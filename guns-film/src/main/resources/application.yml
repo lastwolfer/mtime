@@ -36,13 +36,13 @@ spring:
       name: dubbo
       port: 20882
   datasource:
-    url: jdbc:mysql://106.14.140.211:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: 123456
     filters: log4j,wall,mergeStat
     driver-class-name: com.mysql.jdbc.Driver
   redis:
-    host: 106.14.140.211
+    host: 127.0.0.1
     port: 6379
 
 
