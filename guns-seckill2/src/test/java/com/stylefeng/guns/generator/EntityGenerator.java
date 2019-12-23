@@ -22,7 +22,6 @@ import java.util.Map;
  * @date 2017-08-23 12:15
  */
 public class EntityGenerator {
-
     @Test
     public void entityGenerator() {
         AutoGenerator mpg = new AutoGenerator();
@@ -52,14 +51,12 @@ public class EntityGenerator {
         dsc.setPassword("123456");
         dsc.setUrl("jdbc:mysql://106.14.140.211:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8");
         mpg.setDataSource(dsc);
-
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"mtime_promo_stock"});
+        strategy.setInclude(new String[]{"mtime_stock_log"});
         mpg.setStrategy(strategy);
-
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent(null);

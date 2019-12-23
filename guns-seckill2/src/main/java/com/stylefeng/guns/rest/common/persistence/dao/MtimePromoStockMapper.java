@@ -14,4 +14,9 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;import org.apache.ibatis.annot
 public interface MtimePromoStockMapper extends BaseMapper<MtimePromoStock> {
 
     Integer selectStockById(@Param("uuid")Integer uuid);
+
+    void updateStockById(@Param("promoId")Integer promoId, @Param("amount")Integer amount);
+
+    Integer decreaseStock(@Param(value = "promoId") Integer promoId,
+                          @Param(value = "amount") Integer amount);
 }

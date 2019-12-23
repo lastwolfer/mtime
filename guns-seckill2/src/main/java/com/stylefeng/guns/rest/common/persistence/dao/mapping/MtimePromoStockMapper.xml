@@ -12,4 +12,17 @@
     <select id="selectStockById" resultType="integer">
         select stock from mtime_promo_stock where promo_id=#{uuid}
     </select>
+    <update id="updateStockById">
+        update mtime_promo_stock
+        set stock=#{amount}
+        where uuid=#{promoId}
+    </update>
+
+    <update id="decreaseStock" parameterType="java.lang.Integer">
+        UPDATE mtime_promo_stock
+        SET stock = stock - #{amount}
+        WHERE
+	    stock >= #{amount}
+	    AND promo_id = #{promoId}
+    </update>
 </mapper>

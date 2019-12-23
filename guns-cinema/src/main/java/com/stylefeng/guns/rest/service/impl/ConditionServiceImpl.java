@@ -2,7 +2,6 @@ package com.stylefeng.guns.rest.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.common.persistence.dao.MtimeAreaDictTMapper;
 import com.stylefeng.guns.rest.common.persistence.dao.MtimeBrandDictTMapper;

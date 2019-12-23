@@ -121,17 +121,16 @@ public class MtimeUserTServiceImpl implements MtimeUserService {
 
     @Override
     public UserInfo getUserInfo(String authToken) {
-//        String username = jwtTokenUtil.getUsernameFromToken(authToken);
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("user_name", username);
-//        List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
-//        UserInfo userInfo = new UserInfo();
-//        if( userList != null ) {
-//            MtimeUserT user = userList.get(0);
-//            userInfo = userInfoTransfer(user);
-//        }
-//        return userInfo;
-        return null;
+        String username = jwtTokenUtil.getUsernameFromToken(authToken);
+        Map<String,Object> map = new HashMap<>();
+        map.put("user_name", username);
+        List<MtimeUserT> userList = mtimeUserTMapper.selectByMap(map);
+        UserInfo userInfo = new UserInfo();
+        if( userList != null ) {
+            MtimeUserT user = userList.get(0);
+            userInfo = userInfoTransfer(user);
+        }
+        return userInfo;
     }
 
     @Override
