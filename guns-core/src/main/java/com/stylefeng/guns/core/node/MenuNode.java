@@ -1,8 +1,6 @@
 package com.stylefeng.guns.core.node;
 
 import com.stylefeng.guns.core.constant.IsMenu;
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.*;
 
 /**

@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Data
 public class BaseRespVo<T> implements Serializable {
 
+    private static final long serialVersionUID = 3287021922425377410L;
     T data;
     /**
      * msg :
@@ -22,6 +23,7 @@ public class BaseRespVo<T> implements Serializable {
     private int status=0;
 
 
+    //成功时返回
     public static BaseRespVo ok(Object o){
         BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
         objectBaseRespVo.setStatus(0);
@@ -29,7 +31,7 @@ public class BaseRespVo<T> implements Serializable {
         objectBaseRespVo.setStatus(0);
         return objectBaseRespVo;
     }
-
+    //失败时返回
     public static BaseRespVo fail(Integer status,String msg){
         BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
         objectBaseRespVo.setStatus(status);

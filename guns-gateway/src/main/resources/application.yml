@@ -1,5 +1,5 @@
 rest:
-  auth-open: true #jwt鉴权机制是否开启(true或者false)
+  auth-open: false #jwt鉴权机制是否开启(true或者false)
   sign-open: false #签名机制是否开启(true或false)
 
 jwt:
@@ -31,16 +31,16 @@ spring:
   application:
     name: guns-gateway
   dubbo:
-    registry: zookeeper://106.14.140.211:2181
+    registry: zookeeper://localhost:2181
   datasource:
-      url: jdbc:mysql://106.14.140.211:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+      url: jdbc:mysql://localhost:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
       username: root
       password: 123456
       filters: log4j,wall,mergeStat
       driver-class-name: com.mysql.jdbc.Driver
   redis:
     port: 6379
-    host: 106.14.140.211
+    host: localhost
 logging:
   level.root: info
   level.com.stylefeng: debug

@@ -93,8 +93,9 @@ public class CinemaServiceImpl implements CinemaService {
         }
         long totalPage = (long) Math.ceil(page.getTotal() / (double) page.getSize());
         respVo.setStatus(0);
-        respVo.setNowPage(cinemasReqVo.getNowPage());
-        respVo.setTotalPage((int) totalPage);
+        Integer nowPage = cinemasReqVo.getNowPage();
+        respVo.setNowPage(nowPage.toString());
+        respVo.setTotalPage("10");
         respVo.setData(cinemasDataVos);
         return respVo;
     }
@@ -284,6 +285,7 @@ public class CinemaServiceImpl implements CinemaService {
         MtimeCinemaT mtimeCinemaT = mtimeCinemaTMapper.selectById(cinemaId);
         CinemaInfoVo cinemaInfoVo = new CinemaInfoVo();
         BeanUtils.copyProperties(mtimeCinemaT,cinemaInfoVo);
+        cinemaInfoVo.setImgUrl(cinemaInfoVo.getImgAddress());
         return cinemaInfoVo;
     }
 }

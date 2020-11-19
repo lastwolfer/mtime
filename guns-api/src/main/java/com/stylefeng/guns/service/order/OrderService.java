@@ -5,8 +5,6 @@ import com.stylefeng.guns.service.film.vo.BaseRespVo;
 import com.stylefeng.guns.service.order.vo.OrderVo;
 import org.springframework.stereotype.Component;
 
-@Component
-@Service
 public interface OrderService {
     BaseRespVo buyTickets(Integer fieldId, String soldSeats, String seatsName, Integer userId);
 

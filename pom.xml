@@ -19,6 +19,7 @@
         <module>guns-order</module>
         <module>guns-gateway</module>
         <module>guns-api</module>
+        <module>guns-promo</module>
     </modules>
 
     <parent>

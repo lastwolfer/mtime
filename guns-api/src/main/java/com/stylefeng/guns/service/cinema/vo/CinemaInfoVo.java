@@ -18,4 +18,6 @@ public class CinemaInfoVo implements Serializable {
     private String cinemaAddress;
 
     private String cinemaPhone;
+
+    private String imgAddress;
 }
